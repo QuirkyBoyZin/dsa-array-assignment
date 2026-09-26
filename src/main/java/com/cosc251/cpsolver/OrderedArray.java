@@ -1,6 +1,9 @@
-public class UnorderedArray extends Array{
+package com.cosc251.cpsolver;
 
+public class OrderedArray extends Array
+{
     /**
+     *
      * <p>Inserting an integer to the array. </p>
      * <p> The array will automatically resize if it is full after insertion</p>
      *

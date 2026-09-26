@@ -1,3 +1,5 @@
+package com.cosc251.cpsolver;
+
 abstract public class Array {
     Integer[] arr;
     int size;
