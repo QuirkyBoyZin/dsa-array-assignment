@@ -167,7 +167,7 @@ class CustomArrayTest {
         };
         Integer[] expectedArray = new Integer[]{1,2,3,4,5};
         customArray.resize(3);
-        Integer[] actualArray = customArray.arr;
+        Integer[] actualArray = customArray.getArr();
 
         boolean isEqual = Arrays.equals(expectedArray,actualArray);
 
@@ -198,7 +198,7 @@ class CustomArrayTest {
             }
         };
         customArray.resize(2);
-        int actualSizeAfterResize = customArray.size;
+        int actualSizeAfterResize = customArray.getSize();
         assertEquals(2,actualSizeAfterResize);
     }
 
@@ -225,7 +225,7 @@ class CustomArrayTest {
             }
         };
         customArray.resize(10);
-        Integer[] actualArray  = customArray.arr;
+        Integer[] actualArray  = customArray.getArr();
         Integer[] expectedArray = new Integer[]{1,2,3,4,5,null,null,null,null,null};
 
         boolean isEqual = Arrays.equals(expectedArray,actualArray);
@@ -256,7 +256,7 @@ class CustomArrayTest {
             }
         };
         customArray.resize(3);
-        Integer[] actualArray = customArray.arr;
+        Integer[] actualArray = customArray.getArr();
         Integer[] expectedArray = new Integer[]{1,2,3};
 
         boolean isEqual = Arrays.equals(expectedArray,actualArray);

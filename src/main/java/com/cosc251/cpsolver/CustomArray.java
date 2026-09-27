@@ -1,9 +1,31 @@
 package com.cosc251.cpsolver;
 
+/**
+ * <p> This class serves as a blueprint to build the {@link OrderedArray} and {@link UnorderedArray} class </p>
+ * <p> Implementations of this class, will have different use cases, disadvantages and advantages.</p>
+ * <p> Key characteristics for the implementation will be written in the Javadoc's  {@code @implNote }  field .</p>
+ */
 abstract public class CustomArray {
     // Element will be set to null to indicate unused positions.
-    protected Integer[] arr;
-    protected int size;
+    private Integer[] arr;
+    private int size;
+
+    public Integer[] getArr() {
+        return arr;
+    }
+
+    public void setArr(Integer[] arr) {
+        this.arr = arr;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     // Overloaded constructors:
 
     /**
