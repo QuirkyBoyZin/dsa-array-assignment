@@ -136,11 +136,88 @@ class CustomArrayTest {
 
     // ====== Get ======
     @Test
-    void get() {
+    void givenIndexIsNotGreaterOrEqualTo0_whenGet_thenThrowIndexOutOfBound() {
+        CustomArray customArray = new CustomArray(1) {
+            @Override
+            int find(int e) {
+                return 0;
+            }
+
+            @Override
+            void insert(int e) {
+
+            }
+        };
+
+        assertThrows(IndexOutOfBoundsException.class, () ->{
+            customArray.get(-1);
+                }
+        );
     }
 
+    @Test
+    void givenIndexIsGreaterThanArraySize_whenGet_thenThrowIndexOutOfBound() {
+        CustomArray customArray = new CustomArray(1) {
+            @Override
+            int find(int e) {
+                return 0;
+            }
 
+            @Override
+            void insert(int e) {
 
+            }
+        };
+
+        assertThrows(IndexOutOfBoundsException.class, () ->{
+                    customArray.get(1);
+                }
+        );
+    }
+
+    @Test
+    void givenIndexToNonNullElement_whenGet_thenReturnElement() {
+        final int index= 3;
+        Integer[] testingData = new Integer[]{1,2,3,4,5};
+
+        CustomArray customArray = new CustomArray(testingData) {
+            @Override
+            int find(int e) {
+                return 0;
+            }
+
+            @Override
+            void insert(int e) {
+
+            }
+        };
+
+        int expected = 4;
+        Integer actual   = customArray.get(index);
+        assertEquals(expected,actual, "For index: " + index + "\n" + Arrays.toString(testingData) + " should return " + expected );
+    }
+
+    @Test
+    void givenIndexToNullElement_whenGet_thenReturnNull() {
+        final int index= 3;
+        Integer[] testingData = new Integer[]{1,2,3,null,5};
+
+        CustomArray customArray = new CustomArray(testingData) {
+            @Override
+            int find(int e) {
+                return 0;
+            }
+
+            @Override
+            void insert(int e) {
+
+            }
+        };
+
+        Integer expected = testingData[3];
+        Integer actual   = customArray.get(index);
+        assertEquals(expected,actual, "For index: " + index + "\n" + Arrays.toString(testingData) + " should return " + expected );
+    }
 
     // ======= size =======
     @Test
@@ -221,7 +298,7 @@ class CustomArrayTest {
     }
 
     @Test
-    void givenNewSize2_whenResize_thenSizeChangeTo2() {
+    void givenNewSize_whenResize_thenSizeChangeToNewSize() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,null,null}) {
             @Override
             void insert(int e) {
@@ -253,9 +330,8 @@ class CustomArrayTest {
         Integer[] actualArray  = customArray.getArr();
         Integer[] expectedArray = new Integer[]{1,2,3,4,5,null,null,null,null,null};
 
-        boolean isEqual = Arrays.equals(expectedArray,actualArray);
+        assertEquals(expectedArray, actualArray, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
 
-        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
     }
 
     @Test
@@ -275,9 +351,7 @@ class CustomArrayTest {
         Integer[] actualArray = customArray.getArr();
         Integer[] expectedArray = new Integer[]{1,2,3};
 
-        boolean isEqual = Arrays.equals(expectedArray,actualArray);
-
-        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
+        assertEquals(expectedArray, actualArray, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
 
     }
 
