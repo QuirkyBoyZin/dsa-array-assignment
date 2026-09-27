@@ -18,14 +18,6 @@ class CustomArrayTest {
                         void insert(int e) {
                         }
 
-                        boolean delete(int e) {
-                            return false;
-                        }
-
-                        Integer get(int index) {
-                            return 0;
-                        }
-
                         int find(int e) {
                             return 0;
                         }
@@ -41,14 +33,6 @@ class CustomArrayTest {
                 void insert(int e) {
                 }
 
-                boolean delete(int e) {
-                    return false;
-                }
-
-                Integer get(int index) {
-                    return 0;
-                }
-
                 int find(int e) {
                     return 0;
                 }
@@ -58,22 +42,112 @@ class CustomArrayTest {
     }
 
 
+
+    // ====== Delete ======
+
+
+    @Test
+    void givenNonExistingNumberInArray_whenDelete_thenReturnFalse() {
+        final int NUM = 6;
+        Integer[] testingData = new Integer[]{1, 2, 3, 4, 5};
+
+        CustomArray customArray = new CustomArray(testingData.clone()) {
+            @Override
+            int find(int e) {
+                return 0;
+            }
+
+            @Override
+            void insert(int e) {
+
+            }
+        };
+
+        assertFalse(customArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return False");
+    }
+
+    @Test
+    void givenExistingNumberInArray_whenDelete_thenReturnFalse() {
+        final int NUM= 5;
+        Integer[] testingData = new Integer[]{1,2,3,4,5};
+
+        CustomArray customArray = new CustomArray(testingData.clone()) {
+            int find(int e) {
+                return 0;
+            }
+
+            void insert(int e) {
+
+            }
+        };
+
+        assertTrue(customArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return False");
+    }
+
+    @Test
+    void givenExistingNumberInArray_whenDelete_thenEmptySpotWillBeFillWithNull() {
+        final int NUM= 5;
+        Integer[] testingData = new Integer[]{1,2,3,4,5};
+
+        CustomArray customArray = new CustomArray(testingData.clone()) {
+            @Override
+            int find(int e) {
+                return 0;
+            }
+
+            @Override
+            void insert(int e) {
+
+            }
+        };
+        customArray.delete(NUM);
+
+        Integer[] expected = new Integer[]{1,2,3,4, null};
+        Integer[] actual   = customArray.getArr();
+
+        assertEquals(Arrays.toString(expected), Arrays.toString(actual), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return " + Arrays.toString(expected) ) ;
+    }
+
+    @Test
+    void givenNumberInMiddleArray_whenDelete_thenArrayMustShiftToTheLeft() {
+        final int NUM= 3;
+        Integer[] testingData = new Integer[]{1,2,3,4,5};
+
+        CustomArray customArray = new CustomArray(testingData.clone()) {
+            @Override
+            int find(int e) {
+                return 0;
+            }
+
+            @Override
+            void insert(int e) {
+
+            }
+        };
+        customArray.delete(NUM);
+
+        Integer[] expected = new Integer[]{1,2,4,5, null};
+        Integer[] actual   = customArray.getArr();
+
+        assertEquals(Arrays.toString(expected), Arrays.toString(actual), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return " + Arrays.toString(expected) ) ;
+    }
+
+
+
+    // ====== Get ======
+    @Test
+    void get() {
+    }
+
+
+
+
     // ======= size =======
     @Test
     void givenArrayLength4_whenSize_thenReturn4() {
         CustomArray customArray = new CustomArray(4) {
             @Override
             void insert(int e) {
-            }
-
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            Integer get(int index) {
-                return 0;
             }
 
             @Override
@@ -91,16 +165,6 @@ class CustomArrayTest {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,null,null}) {
             @Override
             void insert(int e) {
-            }
-
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            Integer get(int index) {
-                return 0;
             }
 
             @Override
@@ -123,16 +187,6 @@ class CustomArrayTest {
             }
 
             @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            Integer get(int index) {
-                return 0;
-            }
-
-            @Override
             int find(int e) {
                 return 0;
             }
@@ -149,15 +203,6 @@ class CustomArrayTest {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
-            }
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            Integer get(int index) {
-                return 0;
             }
 
             @Override
@@ -183,16 +228,6 @@ class CustomArrayTest {
             }
 
             @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            Integer get(int index) {
-                return 0;
-            }
-
-            @Override
             int find(int e) {
                 return 0;
             }
@@ -207,16 +242,6 @@ class CustomArrayTest {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
-            }
-
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            Integer get(int index) {
-                return 0;
             }
 
             @Override
@@ -240,15 +265,6 @@ class CustomArrayTest {
             void insert(int e) {
             }
 
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            Integer get(int index) {
-                return 0;
-            }
 
             @Override
             int find(int e) {
