@@ -57,13 +57,11 @@ abstract public class CustomArray {
      * <p>Removing the first occurrence of the given element. </p>
      * <p>After deletion, remaining elements will shift to the left such that all non-null elements remain contiguous.</p>
      *
-     * @param e The element to be inserted into the array.
+     * @param e The element to be removed into the array.
      * @return {@code True}: the element is found deleted
      * {@code False}: the element is not found.
      */
-    public boolean delete(int e) {
-        return false;
-    }
+    abstract boolean delete(int e);
 
     /**
      * <p> Get the element according to the given index </p>

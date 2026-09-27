@@ -25,6 +25,11 @@ public class UnorderedArray extends CustomArray {
         super(arr);
     }
 
+    @Override
+    boolean delete(int e) {
+        return false;
+    }
+
     /**
      * <p>Inserting an integer to the array. </p>
      * <p> The array will automatically resize if it is full after insertion</p>
@@ -32,34 +37,8 @@ public class UnorderedArray extends CustomArray {
      * @param e The element to be inserted into the array.
      */
     @Override
-    void insert(int e) {
+    void insert(int e) {}
 
-    }
-
-    /**
-     *
-     * <p>Removing the first occurrence of the given element. </p>
-     * <p>After deletion, remaining elements will shift to the left such that all non-null elements remain contiguous.</p>
-     *
-     * @param e The element to be inserted into the array.
-     * @return {@code True}: the element is found deleted
-     * {@code False}: the element is not found.
-     */
-    @Override
-    boolean delete(int e) {
-        return false;
-    }
-
-    /**
-     * <p> Get the element according to the given index </p>
-     *
-     * @param index the position of a particular element
-     * @return <p> {@Code Null }  if no element exist at the inputted index </p>
-     */
-    @Override
-    Integer get(int index) {
-        return 0;
-    }
 
     /**
      * <p> Searches through the array to find the inputted element. </p>
