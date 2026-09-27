@@ -8,6 +8,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrderedArrayTest {
 
+    // ====== Constructor ======
+
+    @Test
+    void givenIntegerArray_whenOrderedArray_thenSortTheIntegerArray() {
+        Integer[] testingData = new Integer[]{5,4,3,2,17};
+        OrderedArray orderedArray = new OrderedArray(testingData.clone());
+
+        Arrays.sort(testingData);
+
+        assertEquals(testingData,orderedArray.getArr(), "The array: " + orderedArray.getArr() + " Must be sorted !");
+    }
+
     // ====== Insert ======
     @Test
     void givenAnyNumberToAFullArray_whenInsert_thenResizeArrayAndPutInCorrectPosition() {
@@ -150,6 +162,31 @@ class OrderedArrayTest {
 
     // ====== Find ======
     @Test
-    void find() {
+    void givenExistingElement_whenFind_returnIndex() {
+        final int NUM = 3;
+        Integer[] testingData = new Integer[]{1,2,3,4,5};
+
+        OrderedArray orderedArray = new OrderedArray(testingData.clone());
+        int expect = 2;
+        int actual = orderedArray.find(NUM);
+
+        assertEquals(expect, actual, "Array: " + Arrays.toString(testingData) + " The value: " + NUM + " is at index " + expect);
+
     }
+
+    @Test
+    void givenNonExistingElement_whenFind_returnMinus1() {
+        final int NUM = 6;
+        Integer[] testingData = new Integer[]{1,2,3,4,5};
+
+        OrderedArray orderedArray = new OrderedArray(testingData.clone());
+        int expect = -1;
+        int actual = orderedArray.find(NUM);
+
+        assertEquals(expect, actual, "Array: " + Arrays.toString(testingData) + " Doesn't contain: " + NUM );
+
+    }
+
+
+
 }

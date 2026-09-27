@@ -51,7 +51,6 @@ public class OrderedArray extends CustomArray
      * @param e the element to be found or not found
      * @return <p>{@code Index} of the corresponding inputted  element</p>
      * <p>{@code -1 } if the inputted element doesn't exist</p>
-     * @throws IndexOutOfBoundsException If the given index is equal or more than the size of the array
      *
      */
     @Override
