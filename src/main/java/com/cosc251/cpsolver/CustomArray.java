@@ -1,8 +1,35 @@
 package com.cosc251.cpsolver;
 
-abstract public class Array {
-    Integer[] arr;
-    int size;
+abstract public class CustomArray {
+    // Element will be set to null to indicate unused positions.
+    protected Integer[] arr;
+    protected int size;
+    // Overloaded constructors:
+
+    /**
+     * <p>Given a size, this constructor will create an Array of type {@code Integer } with {@code Null}
+     * values according to the given size. </p>
+     * <p> The {@code Null} values will be replaced when inserting elements. </p>
+     * <p> The {@code Null} values indicates unused positions. </p>
+     *
+     * @param size the total capacity of the array.
+     */
+    public CustomArray(int size) {
+        this.arr = new Integer[size];
+    }
+
+    /**
+     * <p> given an Array of type {@code Integer }, this constructor will create an object of the type {@code CustomArray} with the given array. </p>
+     * <p> The object will preserve all the values of the given array while also providing with more
+     * methods to work with. </p>
+     *
+     * @param arr an Array of type {@code Integer }.
+     */
+    public CustomArray(Integer[] arr) {
+        this.arr = arr;
+        this.size = arr.length;
+    }
+
 
     /**
      *
@@ -35,10 +62,11 @@ abstract public class Array {
 
     /**
      * <p> Searches through the array to find the inputted element. </p>
+     *
      * @param e the element to be found or not found
      * @return <p>{@code Index} of the corresponding inputted  element</p>
-     *         <p>{@code -1 } if the inputted element doesn't exist</p>
-     * @throws IndexOutOfBoundsException  If the given index is equal or more than the size of the array
+     * <p>{@code -1 } if the inputted element doesn't exist</p>
+     * @throws IndexOutOfBoundsException If the given index is equal or more than the size of the array
      *
      */
     abstract int find(int e);
@@ -62,7 +90,6 @@ abstract public class Array {
 
     /**
      * <p> Changes the size of the array to the given {@code newSize } , While preserving the existing elements' order</p>
-     *
      *
      */
     public void resize(int newSize) {

@@ -1,6 +1,29 @@
 package com.cosc251.cpsolver;
 
-public class UnorderedArray extends Array{
+public class UnorderedArray extends CustomArray {
+
+    /**
+     * <p>Given a size, this constructor will create an Array of type {@code Integer } with {@code Null}
+     * values according to the given size. </p>
+     * <p> The {@code Null} values will be replaced when inserting elements. </p>
+     * <p> The {@code Null} values indicates unused positions. </p>
+     *
+     * @param size the total capacity of the array.
+     */
+    public UnorderedArray(int size) {
+        super(size);
+    }
+
+    /**
+     * <p> given an Array of type {@code Integer }, this constructor will create an object of the type {@code CustomArray} with the given array. </p>
+     * <p> The object will preserve all the values of the given array while also providing with more
+     * methods to work with. </p>
+     *
+     * @param arr an Array of type {@code Integer }.
+     */
+    public UnorderedArray(Integer[] arr) {
+        super(arr);
+    }
 
     /**
      * <p>Inserting an integer to the array. </p>
