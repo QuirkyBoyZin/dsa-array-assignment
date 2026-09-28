@@ -40,6 +40,7 @@ abstract public class CustomArray {
      */
     public CustomArray(int size) {
         this.size = size;
+        this.count = 0;
         this.arr = new Integer[size];
     }
 
@@ -53,6 +54,13 @@ abstract public class CustomArray {
     public CustomArray(Integer[] arr) {
         this.arr = arr;
         this.size = arr.length;
+        this.count = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != null) {
+                count++;
+            }
+        }
     }
 
     /**
