@@ -9,6 +9,7 @@ abstract public class CustomArray {
     // Element will be set to null to indicate unused positions.
     private Integer[] arr;
     private int size;
+    private int size; // the capacity or the maximum size that the current array could hold
 
     public Integer[] getArr() {
         return arr;
@@ -16,14 +17,6 @@ abstract public class CustomArray {
 
     public void setArr(Integer[] arr) {
         this.arr = arr;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
     }
 
     // Overloaded constructors:
@@ -104,7 +97,7 @@ abstract public class CustomArray {
      * @return The length of the array.
      */
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
