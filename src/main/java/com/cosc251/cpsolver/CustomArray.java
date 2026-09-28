@@ -8,8 +8,8 @@ package com.cosc251.cpsolver;
 abstract public class CustomArray {
     // Element will be set to null to indicate unused positions.
     private Integer[] arr;
-    private int size;
     private int size; // the capacity or the maximum size that the current array could hold
+    private int count; // the number of non-null elements tha the current array have
 
     public Integer[] getArr() {
         return arr;
@@ -31,6 +31,7 @@ abstract public class CustomArray {
      */
     public CustomArray(int size) {
         this.size = size;
+        this.count = 0;
         this.arr = new Integer[size];
     }
 
@@ -44,6 +45,13 @@ abstract public class CustomArray {
     public CustomArray(Integer[] arr) {
         this.arr = arr;
         this.size = arr.length;
+        this.count = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != null) {
+                count++;
+            }
+        }
     }
 
     /**
@@ -104,7 +112,7 @@ abstract public class CustomArray {
      * @return The number of non-null elements in the array.
      */
     public int count() {
-        return 0;
+        return count;
     }
 
     /**
