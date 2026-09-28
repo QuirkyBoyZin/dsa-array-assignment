@@ -73,7 +73,10 @@ abstract public class CustomArray {
      * @throws IndexOutOfBoundsException If the given index is not greater or equal to 0
      */
     public Integer get(int index) {
-        return null;
+        if (index < 0) {
+            throw new IndexOutOfBoundsException("Index must be greater or equal to 0");
+        }
+        return arr[index];
     }
 
 
