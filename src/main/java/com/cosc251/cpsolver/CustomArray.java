@@ -8,7 +8,8 @@ package com.cosc251.cpsolver;
 abstract public class CustomArray {
     // Element will be set to null to indicate unused positions.
     private Integer[] arr;
-    private int size;
+    private int size; // the capacity or the maximum size that the current array could hold
+    private int count; // the number of non-null elements tha the current array have
 
     public Integer[] getArr() {
         return arr;
@@ -25,6 +26,7 @@ abstract public class CustomArray {
     public void setSize(int size) {
         this.size = size;
     }
+
 
     // Overloaded constructors:
 
