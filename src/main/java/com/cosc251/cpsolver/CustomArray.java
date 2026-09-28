@@ -37,6 +37,7 @@ abstract public class CustomArray {
      * @param size the total capacity of the array.
      */
     public CustomArray(int size) {
+        this.size = size;
         this.arr = new Integer[size];
     }
 
