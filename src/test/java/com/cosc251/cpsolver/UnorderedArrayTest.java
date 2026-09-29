@@ -50,7 +50,7 @@ class UnorderedArrayTest {
 
         UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone()) {
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 

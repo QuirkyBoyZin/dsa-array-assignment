@@ -230,7 +230,7 @@ class CustomArrayTest {
     }
 
     @Test
-    void givenNewSizeEqualsToCurrentSize_whenResize_thenArrayStayTheSame() {
+    void givenNewSizeEqualsToCurrentSize_whenResize_thenArrayStayTheSame() throws IllegalAccessException {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
@@ -257,7 +257,7 @@ class CustomArrayTest {
     }
 
     @Test
-    void givenNewSize_whenResize_thenSizeChangeToNewSize() {
+    void givenNewSize_whenResize_thenSizeChangeToNewSize() throws IllegalAccessException {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,null,null}) {
             @Override
             void insert(int e) {
@@ -279,7 +279,7 @@ class CustomArrayTest {
     }
 
     @Test
-    void givenNewSizeLargerThanCurrentSize_whenResize_thenArrayHaveMorePositionsWithNullValuesAndPreserveOriginalOrder() {
+    void givenNewSizeLargerThanCurrentSize_whenResize_thenArrayHaveMorePositionsWithNullValuesAndPreserveOriginalOrder() throws IllegalAccessException {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
@@ -305,7 +305,7 @@ class CustomArrayTest {
     }
 
     @Test
-    void givenNewSizeSmallerThanCurrentSize_whenResize_thenArrayTruncatesAndPreserveOriginalOrder() {
+    void givenNewSizeSmallerThanCurrentSize_whenResize_thenArrayTruncatesAndPreserveOriginalOrder() throws IllegalAccessException {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {

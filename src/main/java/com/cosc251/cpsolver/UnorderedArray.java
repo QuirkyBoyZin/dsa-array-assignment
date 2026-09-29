@@ -26,8 +26,21 @@ public class UnorderedArray extends CustomArray {
     }
 
     @Override
-    boolean delete(int e) {
-        return false;
+    public boolean delete(int x) {
+        int index = find(x);
+        if (index == -1) {
+            return false;
+        }
+
+        arr[index] = arr[count - 1];
+        arr[count - 1] = null;
+        count--;
+
+        if (count > 0 && count <= arr.length / 4) {
+            resize(arr.length / 2);
+        }
+        return true;
+
     }
 
     /**
@@ -38,7 +51,11 @@ public class UnorderedArray extends CustomArray {
      */
     @Override
     void insert(int e) {
+        if (count >= arr.length) {
+            resize(arr.length * 2);
+        }
 
+        arr[count++] = e;
     }
 
 
@@ -53,6 +70,11 @@ public class UnorderedArray extends CustomArray {
      */
     @Override
     int find(int e) {
-        
+        for (int i = 0; i < count; i++) {
+            if (arr[i] == e) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
