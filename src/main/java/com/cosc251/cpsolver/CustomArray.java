@@ -10,7 +10,6 @@ import java.util.Arrays;
 abstract public class CustomArray {
     // Element will be set to null to indicate unused positions.
     protected Integer[] arr;
-    protected int size;
     protected int count;
 
     public Integer[] getArr() {
@@ -32,25 +31,18 @@ abstract public class CustomArray {
             throw new IllegalArgumentException("Size must be greater than 0!");
         }
 
-        this.size = size;
         this.arr = new Integer[size];
+        this.count = 0;
+
     }
 
-    /**
-     * <p> given an Array of type {@code Integer }, this constructor will create an object of the type {@code CustomArray} with the given array. </p>
-     * <p> The object will preserve all the values of the given array while also providing with more
-     * methods to work with. </p>
-     *
-     * @throws IllegalArgumentException if given empty array.
-     * @param arr an Array of type {@code Integer }.
-     */
     public CustomArray(Integer[] arr) {
-        if (arr.length == 0) {
-            throw new IllegalArgumentException("Array must not be empty!");
-        }
         this.arr = arr;
-        this.size = arr.length;
-        countNonNullElement();
+        for (Integer i : this.arr) {
+            if (i != null) {
+                count++;
+            }
+        }
     }
 
     /**
@@ -93,8 +85,10 @@ abstract public class CustomArray {
      * @throws IndexOutOfBoundsException If the given index is not greater or equal to 0
      */
     public Integer get(int index) {
+        if (index < 0 || index >= arr.length) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+        }
         return arr[index];
-
     }
 
     /**
@@ -104,7 +98,7 @@ abstract public class CustomArray {
      * @return The length of the array.
      */
     public int size() {
-        return size;
+        return arr.length;
     }
 
     /**
@@ -118,38 +112,20 @@ abstract public class CustomArray {
      * <p> Changes the size of the array to the given {@code newSize } , While preserving the existing elements' order</p>
      * @throws IllegalArgumentException if given newSize less than 1.
      */
-    public void resize(int newSize) throws IllegalArgumentException{
-        if (newSize < 1) {
-            throw new IllegalArgumentException("New size must be greater than 0!");
-        }
-        Integer[] arrResized = null;
-
-        if (newSize > size) {
-            arrResized = Arrays.copyOfRange(arr, 0, newSize);
-            Arrays.fill(arrResized, size, newSize, null);
-
-        } else {
-            for (int i = 0; i < newSize; i++) {
-                arrResized = Arrays.copyOfRange(arr, 0, newSize);
-            }
+    public void resize(int newSize) {
+        if (newSize < 0) {
+            throw new IllegalArgumentException("New size must be positive integer");
         }
 
-        arr  = arrResized;
-        size = newSize;
-        countNonNullElement();
+        Integer[] newArr = new Integer[newSize];
 
+        for (int i = 0; i < count; i++) {
+            newArr[i] = arr[i];
+        }
+
+        this.arr = newArr;
 
     }
-
-    private void countNonNullElement() {
-        for (Integer i : this.arr) {
-            if (i != null) {
-                count++;
-            }
-        }
-
-    }
-
 
 
 }
