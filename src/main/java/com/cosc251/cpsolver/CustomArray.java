@@ -8,7 +8,6 @@ package com.cosc251.cpsolver;
 abstract public class CustomArray {
     // Element will be set to null to indicate unused positions.
     private Integer[] arr;
-    private int size; // the capacity or the maximum size that the current array could hold
     private int count; // the number of non-null elements tha the current array have
 
     public Integer[] getArr() {
@@ -30,7 +29,6 @@ abstract public class CustomArray {
      * @param size the total capacity of the array.
      */
     public CustomArray(int size) {
-        this.size = size;
         this.count = 0;
         this.arr = new Integer[size];
     }
@@ -44,7 +42,6 @@ abstract public class CustomArray {
      */
     public CustomArray(Integer[] arr) {
         this.arr = arr;
-        this.size = arr.length;
         this.count = 0;
 
         for (int i = 0; i < arr.length; i++) {
@@ -70,12 +67,11 @@ abstract public class CustomArray {
      *
      * @param index the position of a particular element
      * @return {@code Null}  if no element exist at the inputted index, else return the {@code element} .
-     * @throws IndexOutOfBoundsException If the given index is not greater or equal to 0
+     * @throws IndexOutOfBoundsException if index < 0 or index >= arr.length
      */
     public Integer get(int index) {
-        if (index < 0) {
-            throw new IndexOutOfBoundsException("Index must be greater or equal to 0");
-        }
+        if (index < 0 || index >= arr.length) {
+            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds for length " + arr.length);        }
         return arr[index];
     }
 
@@ -108,7 +104,7 @@ abstract public class CustomArray {
      * @return The length of the array.
      */
     public int size() {
-        return size;
+        return arr.length;
     }
 
     /**
