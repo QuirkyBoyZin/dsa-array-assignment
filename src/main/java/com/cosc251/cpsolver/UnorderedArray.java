@@ -1,7 +1,6 @@
 package com.cosc251.cpsolver;
 
 public class UnorderedArray extends CustomArray {
-
     /**
      * <p>Given a size, this constructor will create an Array of type {@code Integer } with {@code Null}
      * values according to the given size. </p>
@@ -25,9 +24,29 @@ public class UnorderedArray extends CustomArray {
         super(arr);
     }
 
+    /**
+     *
+     * <p>Removing the first occurrence of the given element. </p>
+     * <p>After deletion, remaining elements will shift to the left such that all non-null elements remain contiguous.</p>
+     *
+     * @param e The element to be removed into the array.
+     * @return {@code True}: the element is found deleted
+     * {@code False}: the element is not found.
+     */
     @Override
     boolean delete(int e) {
+        int index = find(e);
+        boolean isFound = index != -1; // False when find(e) returns -1 (exist), false if it returns something else
+
+        if (isFound) {
+            arr[index] = null;
+            UnorderedArray newArr = new UnorderedArray(arr);
+            arr = newArr.arr;
+            return true;
+        }
+
         return false;
+
     }
 
     /**
@@ -38,9 +57,17 @@ public class UnorderedArray extends CustomArray {
      */
     @Override
     void insert(int e) {
+        boolean isArrayFull = pointer == arr.length;
+
+        if (isArrayFull) {
+            resize(pointer + 1);
+            arr[pointer] = e;
+            pointer ++;
+        } else {
+            arr[pointer] = e;
+        }
 
     }
-
 
     /**
      * <p> Searches through the array to find the inputted element. </p>
@@ -48,11 +75,16 @@ public class UnorderedArray extends CustomArray {
      * @param e the element to be found or not found
      * @return <p>{@code Index} of the corresponding inputted  element</p>
      * <p>{@code -1 } if the inputted element doesn't exist</p>
-     * @throws IndexOutOfBoundsException If the given index is equal or more than the size of the array
+     *
      *
      */
     @Override
     int find(int e) {
-        
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == e) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
