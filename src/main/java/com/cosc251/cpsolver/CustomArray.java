@@ -9,9 +9,9 @@ import java.util.Arrays;
  */
 abstract public class CustomArray {
     // Element will be set to null to indicate unused positions.
-    private Integer[] arr;
-    private int size;
-    private int count;
+    protected Integer[] arr;
+    protected int size;
+    protected int count;
 
     public Integer[] getArr() {
         return arr;
