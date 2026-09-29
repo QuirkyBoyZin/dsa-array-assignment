@@ -27,8 +27,13 @@ abstract public class CustomArray {
      * <p> The {@code Null} values indicates unused positions. </p>
      *
      * @param size the total capacity of the array.
+     * @throws IllegalArgumentException if the inputted size is less than 1
      */
     public CustomArray(int size) {
+        if (size < 1) {
+            throw new IllegalArgumentException("Array Must be at least size 1 !");
+        }
+
         this.count = 0;
         this.arr = new Integer[size];
     }
@@ -39,8 +44,13 @@ abstract public class CustomArray {
      * methods to work with. </p>
      *
      * @param arr an Array of type {@code Integer }.
+     * @throws IllegalArgumentException if the inputted array is empty
      */
     public CustomArray(Integer[] arr) {
+        if (arr.length < 1) {
+            throw new IllegalArgumentException("Array must contain at least 1 element !");
+        }
+
         this.arr = arr;
         this.count = 0;
 
