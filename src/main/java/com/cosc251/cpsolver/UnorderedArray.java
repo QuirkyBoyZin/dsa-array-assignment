@@ -37,7 +37,9 @@ public class UnorderedArray extends CustomArray {
      * @param e The element to be inserted into the array.
      */
     @Override
-    void insert(int e) {}
+    void insert(int e) {
+
+    }
 
 
     /**
@@ -51,6 +53,6 @@ public class UnorderedArray extends CustomArray {
      */
     @Override
     int find(int e) {
-        return 0;
+        
     }
 }

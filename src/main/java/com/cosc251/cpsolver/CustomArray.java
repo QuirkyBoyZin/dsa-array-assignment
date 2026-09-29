@@ -1,5 +1,7 @@
 package com.cosc251.cpsolver;
 
+import java.util.Arrays;
+
 /**
  * <p> This class serves as a blueprint to build the {@link OrderedArray} and {@link UnorderedArray} class </p>
  * <p> Implementations of this class, will have different use cases, disadvantages and advantages.</p>
@@ -7,23 +9,12 @@ package com.cosc251.cpsolver;
  */
 abstract public class CustomArray {
     // Element will be set to null to indicate unused positions.
-    private Integer[] arr;
-    private int size;
+    protected Integer[] arr;
+    protected int size;
+    protected int count;
 
     public Integer[] getArr() {
         return arr;
-    }
-
-    public void setArr(Integer[] arr) {
-        this.arr = arr;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
     }
 
     // Overloaded constructors:
@@ -33,10 +24,14 @@ abstract public class CustomArray {
      * values according to the given size. </p>
      * <p> The {@code Null} values will be replaced when inserting elements. </p>
      * <p> The {@code Null} values indicates unused positions. </p>
-     *
+     * @throws IllegalArgumentException if given size less than 1.
      * @param size the total capacity of the array.
      */
     public CustomArray(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be greater than 0!");
+        }
+
         this.size = size;
         this.arr = new Integer[size];
     }
@@ -46,11 +41,16 @@ abstract public class CustomArray {
      * <p> The object will preserve all the values of the given array while also providing with more
      * methods to work with. </p>
      *
+     * @throws IllegalArgumentException if given empty array.
      * @param arr an Array of type {@code Integer }.
      */
     public CustomArray(Integer[] arr) {
+        if (arr.length == 0) {
+            throw new IllegalArgumentException("Array must not be empty!");
+        }
         this.arr = arr;
         this.size = arr.length;
+        countNonNullElement();
     }
 
     /**
@@ -63,17 +63,6 @@ abstract public class CustomArray {
      * {@code False}: the element is not found.
      */
     abstract boolean delete(int e);
-
-    /**
-     * <p> Get the element according to the given index </p>
-     *
-     * @param index the position of a particular element
-     * @return {@code Null}  if no element exist at the inputted index, else return the {@code element} .
-     * @throws IndexOutOfBoundsException If the given index is not greater or equal to 0
-     */
-    public Integer get(int index) {
-        return null;
-    }
 
 
     /**
@@ -96,6 +85,17 @@ abstract public class CustomArray {
      */
     abstract void insert(int e);
 
+    /**
+     * <p> Get the element according to the given index </p>
+     *
+     * @param index the position of a particular element
+     * @return {@code Null}  if no element exist at the inputted index, else return the {@code element} .
+     * @throws IndexOutOfBoundsException If the given index is not greater or equal to 0
+     */
+    public Integer get(int index) {
+        return arr[index];
+
+    }
 
     /**
      * <p>Gives the size of the array. </p>
@@ -104,23 +104,52 @@ abstract public class CustomArray {
      * @return The length of the array.
      */
     public int size() {
-        return 0;
+        return size;
     }
 
     /**
      * @return The number of non-null elements in the array.
      */
     public int count() {
-        return 0;
+        return count;
     }
 
     /**
      * <p> Changes the size of the array to the given {@code newSize } , While preserving the existing elements' order</p>
-     *
+     * @throws IllegalArgumentException if given newSize less than 1.
      */
-    public void resize(int newSize) {
+    public void resize(int newSize) throws IllegalArgumentException{
+        if (newSize < 1) {
+            throw new IllegalArgumentException("New size must be greater than 0!");
+        }
+        Integer[] arrResized = null;
+
+        if (newSize > size) {
+            arrResized = Arrays.copyOfRange(arr, 0, newSize);
+            Arrays.fill(arrResized, size, newSize, null);
+
+        } else {
+            for (int i = 0; i < newSize; i++) {
+                arrResized = Arrays.copyOfRange(arr, 0, newSize);
+            }
+        }
+
+        arr  = arrResized;
+        size = newSize;
+        countNonNullElement();
+
 
     }
+
+    private void countNonNullElement() {
+        for (Integer i : this.arr) {
+            if (i != null) {
+                count++;
+            }
+        }
+
+    }
+
 
 
 }

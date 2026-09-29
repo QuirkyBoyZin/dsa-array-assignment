@@ -274,7 +274,7 @@ class CustomArrayTest {
             }
         };
         customArray.resize(2);
-        int actualSizeAfterResize = customArray.getSize();
+        int actualSizeAfterResize = customArray.size();
         assertEquals(2,actualSizeAfterResize);
     }
 
