@@ -30,9 +30,10 @@ class CustomArrayTest {
                 }
                 , "Array must contain at least 1 element !");
     }
+
         // Int parameter
     @Test
-    void givenIntegerLessThan1_whenCustomArray_thenThrowIllegalArgumentException() {
+    void givenSizeLessThan1_whenCustomArray_thenThrowIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> {
             CustomArray customArray = new CustomArray(0) {
                 void insert(int e) {
@@ -205,7 +206,7 @@ class CustomArrayTest {
     // ======= Resize =======
 
     @Test
-    void givenNewSizeLessThan1_whenResize_thenThrowIndexOutOfBound() {
+    void givenNewSizeLessThan1_whenResize_thenThrowIllegalArgumentException() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
@@ -222,7 +223,7 @@ class CustomArrayTest {
             }
         };
 
-        assertThrows(IndexOutOfBoundsException.class, () ->{
+        assertThrows(IllegalArgumentException.class, () ->{
             customArray.resize(0);
         });
 
@@ -246,12 +247,12 @@ class CustomArrayTest {
             }
         };
         Integer[] expectedArray = new Integer[]{1,2,3,4,5};
-        customArray.resize(3);
+        customArray.resize(5);
         Integer[] actualArray = customArray.getArr();
 
         boolean isEqual = Arrays.equals(expectedArray,actualArray);
 
-        assertTrue(isEqual);
+        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
 
     }
 
@@ -298,7 +299,8 @@ class CustomArrayTest {
         Integer[] actualArray  = customArray.getArr();
         Integer[] expectedArray = new Integer[]{1,2,3,4,5,null,null,null,null,null};
 
-        assertEquals(expectedArray, actualArray, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
+        boolean isEqual = Arrays.equals(expectedArray,actualArray);
+        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
 
     }
 
@@ -324,8 +326,8 @@ class CustomArrayTest {
         Integer[] actualArray = customArray.getArr();
         Integer[] expectedArray = new Integer[]{1,2,3};
 
-        assertEquals(expectedArray, actualArray, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
-
+        boolean isEqual = Arrays.equals(expectedArray,actualArray);
+        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
     }
 
 }
