@@ -17,7 +17,12 @@ class OrderedArrayTest {
 
         Arrays.sort(testingData);
 
-        assertEquals(testingData,orderedArray.getArr(), "The array: " + orderedArray.getArr() + " Must be sorted !");
+        Integer[] expect = testingData;
+        Integer[] actual = orderedArray.getArr();
+
+        boolean isEqual = Arrays.equals(expect, actual);
+
+        assertTrue(isEqual,"The array: " + Arrays.toString(testingData) + " Must be sorted !"+ " Actual: " + Arrays.toString(actual));
     }
 
     // ====== Insert ======
@@ -29,9 +34,11 @@ class OrderedArrayTest {
         OrderedArray orderedArray = new OrderedArray(testingData.clone());
         orderedArray.insert(NUM);
 
-        Integer[] expected = {1,2,3,4,5,6,7};
+        Integer[] expected = {1,2,3,4,5,7,8};
+        Integer[] actual   = orderedArray.getArr();
 
-        assertEquals(expected,orderedArray.getArr(),"\nInserting " + NUM + " should return: " + Arrays.toString(expected));
+        boolean isEqual = Arrays.equals(expected, actual);
+        assertTrue(isEqual, "Inserting " + NUM + " To" + Arrays.toString(testingData) + " Expected: " + Arrays.toString(expected) + " Actual: " + Arrays.toString(actual));
     }
 
     @Test
@@ -42,8 +49,10 @@ class OrderedArrayTest {
         orderedArray.insert(1);
 
         Integer[] expected = {1,1,2,3,4,5};
+        Integer[] actual   = orderedArray.getArr();
 
-        assertEquals(expected,orderedArray.getArr(),"\nInserting " + NUM + " should return: " + Arrays.toString(expected));
+        boolean isEqual = Arrays.equals(expected, actual);
+        assertTrue(isEqual, "Inserting " + NUM + " To" + Arrays.toString(testingData) + " Expected: " + Arrays.toString(expected) + " Actual: " + Arrays.toString(actual));
     }
 
     @Test
@@ -54,8 +63,10 @@ class OrderedArrayTest {
         orderedArray.insert(NUM);
 
         Integer[] expected = {-1,1,2,3,4,5};
+        Integer[] actual   = orderedArray.getArr();
 
-        assertEquals(expected,orderedArray.getArr(),"\nInserting " + NUM + " should return: " + Arrays.toString(expected));
+        boolean isEqual = Arrays.equals(expected, actual);
+        assertTrue(isEqual, "Inserting " + NUM + " To" + Arrays.toString(testingData) + " Expected: " + Arrays.toString(expected) + " Actual: " + Arrays.toString(actual));
     }
 
     @Test
@@ -66,8 +77,10 @@ class OrderedArrayTest {
         orderedArray.insert(NUM);
 
         Integer[] expected = {1,2,3,4,5,6};
+        Integer[] actual   = orderedArray.getArr();
 
-        assertEquals(expected,orderedArray.getArr(),"\nInserting " + NUM + " should return: " + Arrays.toString(expected));
+        boolean isEqual = Arrays.equals(expected, actual);
+        assertTrue(isEqual, "Inserting " + NUM + " To" + Arrays.toString(testingData) + " Expected: " + Arrays.toString(expected) + " Actual: " + Arrays.toString(actual));
     }
 
     @Test
@@ -77,9 +90,11 @@ class OrderedArrayTest {
         OrderedArray orderedArray = new OrderedArray(testingData.clone());
         orderedArray.insert(NUM);
 
-        Integer[] expected = {-6,1,2,3,4,5,6};
+        Integer[] expected = {-6,1,2,3,4,5};
+        Integer[] actual   = orderedArray.getArr();
 
-        assertEquals(expected,orderedArray.getArr(),"\nInserting " + NUM + " should return: " + Arrays.toString(expected));
+        boolean isEqual = Arrays.equals(expected, actual);
+        assertTrue(isEqual, "Inserting " + NUM + " To" + Arrays.toString(testingData) + " Expected: " + Arrays.toString(expected) + " Actual: " + Arrays.toString(actual));
     }
 
     // ====== Delete ======
@@ -110,24 +125,11 @@ class OrderedArrayTest {
     }
 
     @Test
-    void givenExistingNumberInArray_whenDelete_thenReturnFalse() {
+    void givenExistingNumberInArray_whenDelete_thenReturnTrue() {
         final int NUM= 5;
         Integer[] testingData = new Integer[]{1,2,3,4,5};
 
-        OrderedArray orderedArray = new OrderedArray(testingData.clone()) {
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            int find(int e) {
-                return 0;
-            }
-
-            void insert(int e) {
-
-            }
-        };
+        OrderedArray orderedArray = new OrderedArray(testingData.clone());
 
         assertTrue(orderedArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return False");
     }
