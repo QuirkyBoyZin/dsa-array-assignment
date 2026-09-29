@@ -30,9 +30,10 @@ class CustomArrayTest {
                 }
                 , "Array must contain at least 1 element !");
     }
+
         // Int parameter
     @Test
-    void givenIntegerLessThan1_whenCustomArray_thenThrowIllegalArgumentException() {
+    void givenSizeLessThan1_whenCustomArray_thenThrowIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> {
             CustomArray customArray = new CustomArray(0) {
                 void insert(int e) {
@@ -205,7 +206,7 @@ class CustomArrayTest {
     // ======= Resize =======
 
     @Test
-    void givenNewSizeLessThan1_whenResize_thenThrowIndexOutOfBound() {
+    void givenNewSizeLessThan1_whenResize_thenThrowIllegalArgumentException() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
@@ -222,14 +223,14 @@ class CustomArrayTest {
             }
         };
 
-        assertThrows(IndexOutOfBoundsException.class, () ->{
+        assertThrows(IllegalArgumentException.class, () ->{
             customArray.resize(0);
         });
 
     }
 
     @Test
-    void givenNewSizeEqualsToCurrentSize_whenResize_thenArrayStayTheSame() {
+    void givenNewSizeEqualsToCurrentSize_whenResize_thenArrayStayTheSame() throws IllegalAccessException {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
@@ -246,17 +247,17 @@ class CustomArrayTest {
             }
         };
         Integer[] expectedArray = new Integer[]{1,2,3,4,5};
-        customArray.resize(3);
+        customArray.resize(5);
         Integer[] actualArray = customArray.getArr();
 
         boolean isEqual = Arrays.equals(expectedArray,actualArray);
 
-        assertTrue(isEqual);
+        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
 
     }
 
     @Test
-    void givenNewSize_whenResize_thenSizeChangeToNewSize() {
+    void givenNewSize_whenResize_thenSizeChangeToNewSize() throws IllegalAccessException {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,null,null}) {
             @Override
             void insert(int e) {
@@ -278,7 +279,7 @@ class CustomArrayTest {
     }
 
     @Test
-    void givenNewSizeLargerThanCurrentSize_whenResize_thenArrayHaveMorePositionsWithNullValuesAndPreserveOriginalOrder() {
+    void givenNewSizeLargerThanCurrentSize_whenResize_thenArrayHaveMorePositionsWithNullValuesAndPreserveOriginalOrder() throws IllegalAccessException {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
@@ -298,12 +299,13 @@ class CustomArrayTest {
         Integer[] actualArray  = customArray.getArr();
         Integer[] expectedArray = new Integer[]{1,2,3,4,5,null,null,null,null,null};
 
-        assertEquals(expectedArray, actualArray, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
+        boolean isEqual = Arrays.equals(expectedArray,actualArray);
+        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
 
     }
 
     @Test
-    void givenNewSizeSmallerThanCurrentSize_whenResize_thenArrayTruncatesAndPreserveOriginalOrder() {
+    void givenNewSizeSmallerThanCurrentSize_whenResize_thenArrayTruncatesAndPreserveOriginalOrder() throws IllegalAccessException {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
             void insert(int e) {
@@ -324,8 +326,8 @@ class CustomArrayTest {
         Integer[] actualArray = customArray.getArr();
         Integer[] expectedArray = new Integer[]{1,2,3};
 
-        assertEquals(expectedArray, actualArray, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
-
+        boolean isEqual = Arrays.equals(expectedArray,actualArray);
+        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
     }
 
 }
