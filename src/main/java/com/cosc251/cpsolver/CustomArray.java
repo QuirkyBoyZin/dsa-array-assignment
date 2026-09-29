@@ -1,5 +1,6 @@
 package com.cosc251.cpsolver;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -12,6 +13,7 @@ abstract public class CustomArray {
     protected Integer[] arr;
     protected int size;
     protected int count;
+    protected int pointer; // point at the next position (null) that can be inserted
 
     public Integer[] getArr() {
         return arr;
@@ -31,7 +33,7 @@ abstract public class CustomArray {
         if (size <= 0) {
             throw new IllegalArgumentException("Size must be greater than 0!");
         }
-
+        this.pointer = 0;
         this.size = size;
         this.arr = new Integer[size];
     }
@@ -48,7 +50,15 @@ abstract public class CustomArray {
         if (arr.length == 0) {
             throw new IllegalArgumentException("Array must not be empty!");
         }
-        this.arr = arr;
+        this.arr = new Integer[arr.length];
+        this.pointer = 0;
+
+        for (Integer e : arr) {
+            if (e != null) {
+                this.arr[pointer] = e;
+                pointer++;
+            }
+        }
         this.size = arr.length;
         countNonNullElement();
     }
@@ -129,9 +139,7 @@ abstract public class CustomArray {
             Arrays.fill(arrResized, size, newSize, null);
 
         } else {
-            for (int i = 0; i < newSize; i++) {
                 arrResized = Arrays.copyOfRange(arr, 0, newSize);
-            }
         }
 
         arr  = arrResized;

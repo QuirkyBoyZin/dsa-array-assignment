@@ -153,7 +153,7 @@ class CustomArrayTest {
             }
         };
 
-        Integer expected = testingData[3];
+        Integer expected = testingData[4];
         Integer actual   = customArray.get(index);
         assertEquals(expected,actual, "For index: " + index + "\n" + Arrays.toString(testingData) + " should return " + expected );
     }

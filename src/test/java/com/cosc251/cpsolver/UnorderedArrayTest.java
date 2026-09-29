@@ -2,7 +2,6 @@ package com.cosc251.cpsolver;
 
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,8 +21,7 @@ class UnorderedArrayTest {
         Integer[] expected = new Integer[]{1,null};
         Integer[] actual = unorderedArray.getArr();
 
-        boolean isEqual = Arrays.equals(expected,actual);
-        assertTrue(isEqual, "Expected: " + Arrays.toString(expected) + " Actual: " + Arrays.toString(actual));
+        assertEquals(expected,actual, "Inserting " + NUM + " to " + Arrays.toString(testingData) + " Should return " + Arrays.toString(expected));
 
     }
 
@@ -38,8 +36,7 @@ class UnorderedArrayTest {
         Integer[] expected = new Integer[]{5,4,1,2,5,8};
         Integer[] actual = unorderedArray.getArr();
 
-        boolean isEqual = Arrays.equals(expected,actual);
-        assertTrue(isEqual, "Expected: " + Arrays.toString(expected) + "\nActual: " + Arrays.toString(actual));
+        assertEquals(expected,actual, "Inserting " + NUM + " to " + Arrays.toString(testingData) + " Should return " + Arrays.toString(expected));
     }
 
     // ====== Delete ======
@@ -73,14 +70,22 @@ class UnorderedArrayTest {
         final int NUM= 5;
         Integer[] testingData = new Integer[]{1,2,3,4,5};
 
-        UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone());
+        UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone()) {
+            @Override
+            boolean delete(int e) {
+                return false;
+            }
 
-        boolean isDeleted = unOrderedArray.delete(NUM);
+            int find(int e) {
+                return 0;
+            }
 
-        Integer[] expected = new Integer[]{1,2,3,4,null};
-        Integer[] actual   = unOrderedArray.arr;
+            void insert(int e) {
 
-        assertTrue( isDeleted,"Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return " + Arrays.toString(expected));
+            }
+        };
+
+        assertTrue(unOrderedArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return False");
     }
 
     @Test
@@ -94,9 +99,7 @@ class UnorderedArrayTest {
         Integer[] expected = new Integer[]{1,2,3,4, null};
         Integer[] actual   = unOrderedArray.getArr();
 
-        boolean isEqual = Arrays.equals(expected,actual);
-        assertTrue(isEqual, "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return " + Arrays.toString(expected));
-
+        assertEquals(Arrays.toString(expected), Arrays.toString(actual), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return " + Arrays.toString(expected) ) ;
     }
 
     @Test
@@ -110,8 +113,7 @@ class UnorderedArrayTest {
         Integer[] expected = new Integer[]{1,2,4,5, null};
         Integer[] actual   = unOrderedArray.getArr();
 
-        boolean isEqual = Arrays.equals(expected,actual);
-        assertTrue(isEqual, "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return " + Arrays.toString(expected));
+        assertEquals(Arrays.toString(expected), Arrays.toString(actual), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return " + Arrays.toString(expected) ) ;
     }
 
     // ====== Find ======
