@@ -1,119 +1,181 @@
 package com.cosc251.cpsolver.model;
 
-import java.util.Arrays;
-
 /**
- * <p> This class serves as a blueprint to build the {@link OrderedArray} and {@link UnorderedArray} class </p>
- * <p> Implementations of this class, will have different use cases, disadvantages and advantages.</p>
- * <p> Key characteristics for the implementation will be written in the Javadoc's  {@code @implNote }  field.</p>
+ * Base class for UnorderedArray and OrderedArray. It holds the Integer[] arr and the methods
+ * that work the same way in both classes: get, size, count and resize.
+ *
+ * The elements are always kept together at the front of arr (index 0 to count - 1).
+ * Every slot after them is null, which marks it as unused.
  */
-abstract public class CustomArray {
+public abstract class CustomArray {
 
-    protected Integer[] arr;      // Element will be set to null to indicate unused positions.
-    protected int size;           // The Total number of elements in the array (both non-null and null elements)
-    protected int count;          // Number of non-null elements
-    protected int pointer = 0;    // point at the nearest null entry in the array from left to right
+    protected Integer[] arr;  // null means the slot is unused
+    protected int count;      // number of elements stored, also the index of the next free slot
 
     /**
-     * @return The Total number of elements in the array (both non-null and null elements).
+     * Creates an empty array with the given capacity.
+     * Time complexity: O(n), Java fills all n slots of the new array with null.
+     *
+     * @param size the capacity of the array
+     * @throws IllegalArgumentException if size is less than 1
      */
-    public int size() {
-        return size;
+    public CustomArray(int size) {
+        if (size < 1) {
+            throw new IllegalArgumentException("Size must be greater than 0!");
+        }
+        arr = new Integer[size];
     }
 
     /**
-     * @return The number of non-null elements in the array.
+     * Creates an array from a copy of the given elements, so changing the original later has no effect.
+     * Null values are treated as unused slots, so the other elements move to the front in the same order.
+     * For example [1, null, 2] becomes [1, 2, null].
+     * Time complexity: O(n), we go through the given array once.
+     *
+     * @param elements the starting elements
+     * @throws IllegalArgumentException if elements is empty
+     */
+    public CustomArray(Integer[] elements) {
+        if (elements.length == 0) {
+            throw new IllegalArgumentException("Array must not be empty!");
+        }
+
+        arr = new Integer[elements.length];
+        for (Integer element : elements) {
+            if (element != null) {
+                arr[count] = element;
+                count++;
+            }
+        }
+    }
+
+    /**
+     * Inserts x into the array. If the array is full, it is resized first.
+     * Time complexity: depends on the class, see UnorderedArray and OrderedArray.
+     *
+     * @param x the integer to insert
+     */
+    public abstract void insert(int x);
+
+    /**
+     * Removes the first occurrence of x and shifts the remaining elements left so there are no gaps.
+     * Time complexity: depends on the class, see UnorderedArray and OrderedArray.
+     *
+     * @param x the integer to remove
+     * @return true if x was found and removed, false if it isn't in the array
+     */
+    public abstract boolean delete(int x);
+
+    /**
+     * Searches the array for x.
+     * Time complexity: depends on the class, see UnorderedArray and OrderedArray.
+     *
+     * @param x the integer to look for
+     * @return the index of x, or -1 if it isn't in the array
+     */
+    public abstract int find(int x);
+
+    /**
+     * Returns the element at the given index, or null if that slot is unused.
+     * Time complexity: O(1), an array can jump straight to any index.
+     *
+     * @param index the position to read
+     * @return the element at index, or null if the slot is unused
+     * @throws IndexOutOfBoundsException if index is negative or not less than size()
+     */
+    public Integer get(int index) {
+        if (index < 0 || index >= arr.length) {
+            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds for size " + arr.length);
+        }
+        return arr[index];
+    }
+
+    /**
+     * Returns the total capacity of the array, counting both used and unused slots.
+     * Time complexity: O(1), Java stores the length with the array.
+     */
+    public int size() {
+        return arr.length;
+    }
+
+    /**
+     * Returns the number of non-null elements currently stored.
+     * Time complexity: O(1), count is updated on every insert and delete, so we never have to recount.
      */
     public int count() {
         return count;
     }
 
-    @Override
-    public String toString() {
-        return Arrays.toString(arr);
-    }
-
-
     /**
-     * <p>Given a size, this constructor will create an Array of type {@code Integer } with {@code Null}
-     * values according to the given size. </p>
-     * <p> The {@code Null} values will be replaced when inserting elements. </p>
-     * <p> The {@code Null} values indicates unused positions. </p>
-     * @throws IllegalArgumentException if given size less than 1.
-     * @param size the total capacity of the array.
-     */
-    public CustomArray(int size) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Size must be greater than 0!");
-        }
-        this.size = size;
-        this.arr = new Integer[size];
-    }
-
-
-    /**
-     * <p> Get the element according to the given index </p>
-     * @param index the position of a particular element
-     * @return {@code Null}  if no element exist at the given index <br>
-     * {@code Element } at that index
-     * @throws IndexOutOfBoundsException If the given index is not greater or equal to 0
-     */
-    public Integer get(int index) {
-        return arr[index];
-    }
-
-    /**
-     * <p>Removing the first occurrence of the given element. </p>
-     * <p>After deletion, remaining elements will shift to the left such that all non-null elements remain contiguous.</p>
+     * Changes the capacity to newSize and keeps the elements in the same order.
+     * If newSize is smaller than count, the elements past the new size are discarded.
+     * Time complexity: O(n), every element is copied into a new array.
      *
-     * @param e The element to be removed into the array.
-     * @return {@code True}: the element is found deleted
-     * {@code False}: the element is not found.
+     * @param newSize the new capacity
+     * @throws IllegalArgumentException if newSize is less than 1
      */
-    public abstract boolean delete(int e);
-
-    /**
-     * <p> Searches through the array to find the inputted element {@code e}. </p>
-     *
-     * @param e the element to be searched for
-     * @return <p> Index of {@code e} if exists <br> {@code -1 } if {@code e} doesn't exist</p>
-     */
-    public abstract int find(int e);
-
-    /**
-     * <p>Inserting an integer to the array. </p>
-     * <p> The array will automatically resize if it is full after insertion</p>
-     * @param e The element to be inserted into the array.
-     */
-    public abstract void insert(int e);
-
-    /**
-     * <p> Changes the size of the array to the given {@code newSize }, While preserving the existing elements' order</p>
-     * @throws IllegalArgumentException if given newSize less than 1.
-     */
-    protected void resize(int newSize) throws IllegalArgumentException{
+    public void resize(int newSize) {
         if (newSize < 1) {
             throw new IllegalArgumentException("New size must be greater than 0!");
         }
 
-        // recount the number of non-null element after resizing if newSize is less than current size
-        if (newSize < size) {
-            countNonNullElement();
+        arr = copyElements(newSize);
+        if (newSize < count) {
+            count = newSize;
         }
-
-        pointer = newSize - 1;
-        arr  = Arrays.copyOfRange(arr, 0, newSize);
-        size = newSize;
-
     }
 
-    private void countNonNullElement() {
-        for (Integer i : arr) {
-            if (i != null) {
-                count++;
+    /**
+     * Returns a copy of the whole array, unused (null) slots included.
+     * Time complexity: O(n), every element is copied.
+     */
+    public Integer[] getArr() {
+        return copyElements(arr.length);
+    }
+
+    /**
+     * Returns the array as text, for example [1, 2, null].
+     * Time complexity: O(n), each slot is visited once.
+     */
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("[");
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) {
+                result.append(", ");
             }
+            result.append(arr[i]);
         }
-
+        return result.append("]").toString();
     }
 
+    /**
+     * Removes the element at index by shifting every element after it one slot to the left.
+     * Both classes use this in delete.
+     * Time complexity: O(n) in the worst case (removing the first element), O(1) when removing the last one.
+     *
+     * @param index the position to remove, must be less than count
+     */
+    protected void removeAt(int index) {
+        for (int i = index; i < count - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+        arr[count - 1] = null;
+        count--;
+    }
+
+    /**
+     * Copies the elements into a new array of the given length. Slots without an element stay null.
+     * Time complexity: O(n), each element is copied once.
+     *
+     * @param length the length of the new array
+     * @return the new array
+     */
+    private Integer[] copyElements(int length) {
+        Integer[] copy = new Integer[length];
+        for (int i = 0; i < count && i < length; i++) {
+            copy[i] = arr[i];
+        }
+        return copy;
+    }
 }

@@ -1,6 +1,5 @@
-package com.cosc251.cpsolver;
+package com.cosc251.cpsolver.model;
 
-import com.cosc251.cpsolver.model.UnorderedArray;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -22,7 +21,7 @@ class UnorderedArrayTest {
         Integer[] expected = new Integer[]{1,null};
         Integer[] actual = unorderedArray.getArr();
 
-        assertEquals(expected,actual, "Inserting " + NUM + " to " + Arrays.toString(testingData) + " Should return " + Arrays.toString(expected));
+        assertArrayEquals(expected,actual, "Inserting " + NUM + " to " + Arrays.toString(testingData) + " Should return " + Arrays.toString(expected));
 
     }
 
@@ -34,10 +33,10 @@ class UnorderedArrayTest {
         UnorderedArray unorderedArray = new UnorderedArray(testingData.clone());
         unorderedArray.insert(NUM);
 
-        Integer[] expected = new Integer[]{5,4,1,2,5,8};
+        Integer[] expected = new Integer[]{5,4,1,2,5,8,null,null,null,null};
         Integer[] actual = unorderedArray.getArr();
 
-        assertEquals(expected,actual, "Inserting " + NUM + " to " + Arrays.toString(testingData) + " Should return " + Arrays.toString(expected));
+        assertArrayEquals(expected,actual, "Inserting " + NUM + " to " + Arrays.toString(testingData) + " Should return " + Arrays.toString(expected));
     }
 
     // ====== Delete ======
@@ -46,47 +45,19 @@ class UnorderedArrayTest {
         final int NUM = 6;
         Integer[] testingData = new Integer[]{1, 2, 3, 4, 5};
 
-        UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone()) {
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            int find(int e) {
-                return 0;
-            }
-
-            @Override
-            void insert(int e) {
-
-            }
-        };
+        UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone());
 
         assertFalse(unOrderedArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return False");
     }
 
     @Test
-    void givenExistingNumberInArray_whenDelete_thenReturnFalse() {
+    void givenExistingNumberInArray_whenDelete_thenReturnTrue() {
         final int NUM= 5;
         Integer[] testingData = new Integer[]{1,2,3,4,5};
 
-        UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone()) {
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
+        UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone());
 
-            int find(int e) {
-                return 0;
-            }
-
-            void insert(int e) {
-
-            }
-        };
-
-        assertTrue(unOrderedArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return False");
+        assertTrue(unOrderedArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return True");
     }
 
     @Test
@@ -142,5 +113,49 @@ class UnorderedArrayTest {
 
         assertEquals(expect, actual, "Array: " + Arrays.toString(testingData) + " Doesn't contain: " + NUM );
 
+    }
+
+    // ====== Count ======
+    @Test
+    void given4InsertsAnd1Delete_whenCount_thenReturn3() {
+        UnorderedArray unOrderedArray = new UnorderedArray(3);
+        unOrderedArray.insert(5);
+        unOrderedArray.insert(1);
+        unOrderedArray.insert(4);
+        unOrderedArray.insert(2);     // the array is full, so it resizes
+        unOrderedArray.delete(4);
+
+        assertEquals(3, unOrderedArray.count(), "Array: " + unOrderedArray + " has 3 elements");
+    }
+
+    // ====== Resize ======
+    @Test
+    void givenArrayShrunkByResize_whenInsert_thenAppendAfterTheRemainingElements() {
+        final int NUM = 9;
+        Integer[] testingData = new Integer[]{1,2,3,4,5};
+
+        UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone());
+        unOrderedArray.resize(3);
+        unOrderedArray.insert(NUM);
+
+        Integer[] expected = new Integer[]{1,2,3,9,null,null};
+        Integer[] actual   = unOrderedArray.getArr();
+
+        assertArrayEquals(expected, actual, "Inserting " + NUM + " after resizing " + Arrays.toString(testingData) + " to 3 Should return " + Arrays.toString(expected));
+    }
+
+    @Test
+    void givenArrayGrownByResize_whenInsert_thenAppendRightAfterTheLastElement() {
+        final int NUM = 3;
+        Integer[] testingData = new Integer[]{1,2};
+
+        UnorderedArray unOrderedArray = new UnorderedArray(testingData.clone());
+        unOrderedArray.resize(4);
+        unOrderedArray.insert(NUM);
+
+        Integer[] expected = new Integer[]{1,2,3,null};
+        Integer[] actual   = unOrderedArray.getArr();
+
+        assertArrayEquals(expected, actual, "Inserting " + NUM + " after resizing " + Arrays.toString(testingData) + " to 4 Should return " + Arrays.toString(expected));
     }
 }

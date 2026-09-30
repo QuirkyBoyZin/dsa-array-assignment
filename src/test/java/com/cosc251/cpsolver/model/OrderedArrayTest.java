@@ -1,6 +1,5 @@
-package com.cosc251.cpsolver;
+package com.cosc251.cpsolver.model;
 
-import com.cosc251.cpsolver.model.OrderedArray;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -26,6 +25,19 @@ class OrderedArrayTest {
         assertTrue(isEqual,"The array: " + Arrays.toString(testingData) + " Must be sorted !"+ " Actual: " + Arrays.toString(actual));
     }
 
+    @Test
+    void givenIntegerArrayWithNull_whenOrderedArray_thenSortTheElementsAndMoveNullToTheEnd() {
+        Integer[] testingData = new Integer[]{5,null,1,3};
+        OrderedArray orderedArray = new OrderedArray(testingData.clone());
+
+        Integer[] expect = {1,3,5,null};
+        Integer[] actual = orderedArray.getArr();
+
+        boolean isEqual = Arrays.equals(expect, actual);
+
+        assertTrue(isEqual,"The array: " + Arrays.toString(testingData) + " Must be sorted !"+ " Actual: " + Arrays.toString(actual));
+    }
+
     // ====== Insert ======
     @Test
     void givenAnyNumberToAFullArray_whenInsert_thenResizeArrayAndPutInCorrectPosition() {
@@ -35,7 +47,7 @@ class OrderedArrayTest {
         OrderedArray orderedArray = new OrderedArray(testingData.clone());
         orderedArray.insert(NUM);
 
-        Integer[] expected = {1,2,3,4,5,7,8};
+        Integer[] expected = {1,2,3,4,5,7,8,null,null,null,null,null};
         Integer[] actual   = orderedArray.getArr();
 
         boolean isEqual = Arrays.equals(expected, actual);
@@ -49,7 +61,7 @@ class OrderedArrayTest {
         OrderedArray orderedArray = new OrderedArray(testingData.clone());
         orderedArray.insert(1);
 
-        Integer[] expected = {1,1,2,3,4,5};
+        Integer[] expected = {1,1,2,3,4,5,null,null,null,null};
         Integer[] actual   = orderedArray.getArr();
 
         boolean isEqual = Arrays.equals(expected, actual);
@@ -63,7 +75,7 @@ class OrderedArrayTest {
         OrderedArray orderedArray = new OrderedArray(testingData.clone());
         orderedArray.insert(NUM);
 
-        Integer[] expected = {-1,1,2,3,4,5};
+        Integer[] expected = {-1,1,2,3,4,5,null,null,null,null};
         Integer[] actual   = orderedArray.getArr();
 
         boolean isEqual = Arrays.equals(expected, actual);
@@ -77,7 +89,7 @@ class OrderedArrayTest {
         OrderedArray orderedArray = new OrderedArray(testingData.clone());
         orderedArray.insert(NUM);
 
-        Integer[] expected = {1,2,3,4,5,6};
+        Integer[] expected = {1,2,3,4,5,6,null,null,null,null};
         Integer[] actual   = orderedArray.getArr();
 
         boolean isEqual = Arrays.equals(expected, actual);
@@ -91,11 +103,25 @@ class OrderedArrayTest {
         OrderedArray orderedArray = new OrderedArray(testingData.clone());
         orderedArray.insert(NUM);
 
-        Integer[] expected = {-6,1,2,3,4,5};
+        Integer[] expected = {-6,1,2,3,4,5,null,null,null,null};
         Integer[] actual   = orderedArray.getArr();
 
         boolean isEqual = Arrays.equals(expected, actual);
         assertTrue(isEqual, "Inserting " + NUM + " To" + Arrays.toString(testingData) + " Expected: " + Arrays.toString(expected) + " Actual: " + Arrays.toString(actual));
+    }
+
+    @Test
+    void givenArrayWithUnusedPositions_whenInsert_thenPutInCorrectPositionWithoutResizing() {
+        OrderedArray orderedArray = new OrderedArray(5);
+        orderedArray.insert(3);
+        orderedArray.insert(1);
+        orderedArray.insert(2);
+
+        Integer[] expected = {1,2,3,null,null};
+        Integer[] actual   = orderedArray.getArr();
+
+        boolean isEqual = Arrays.equals(expected, actual);
+        assertTrue(isEqual, "Inserting 3, 1, 2 To an empty array of size 5" + " Expected: " + Arrays.toString(expected) + " Actual: " + Arrays.toString(actual));
     }
 
     // ====== Delete ======
@@ -105,22 +131,7 @@ class OrderedArrayTest {
         final int NUM = 6;
         Integer[] testingData = new Integer[]{1, 2, 3, 4, 5};
 
-        OrderedArray orderedArray = new OrderedArray(testingData.clone()) {
-            @Override
-            boolean delete(int e) {
-                return false;
-            }
-
-            @Override
-            int find(int e) {
-                return 0;
-            }
-
-            @Override
-            void insert(int e) {
-
-            }
-        };
+        OrderedArray orderedArray = new OrderedArray(testingData.clone());
 
         assertFalse(orderedArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return False");
     }
@@ -132,7 +143,7 @@ class OrderedArrayTest {
 
         OrderedArray orderedArray = new OrderedArray(testingData.clone());
 
-        assertTrue(orderedArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return False");
+        assertTrue(orderedArray.delete(NUM), "Deleting " + NUM + " from " + Arrays.toString(testingData) + "Should return True");
     }
 
     @Test
@@ -190,6 +201,45 @@ class OrderedArrayTest {
 
     }
 
+    @Test
+    void givenNonExistingElementAfterDelete_whenFind_returnMinus1() {
+        final int NUM = 6;
+        Integer[] testingData = new Integer[]{1,2,3,4,5};
 
+        OrderedArray orderedArray = new OrderedArray(testingData.clone());
+        orderedArray.delete(3);     // leaves an unused (null) position at the end: [1, 2, 4, 5, null]
+
+        int expect = -1;
+        int actual = orderedArray.find(NUM);
+
+        assertEquals(expect, actual, "Array: " + orderedArray + " Doesn't contain: " + NUM );
+
+    }
+
+    @Test
+    void givenDuplicateElements_whenFind_returnIndexOfFirstOccurrence() {
+        final int NUM = 2;
+        Integer[] testingData = new Integer[]{2,3,2,1,2};
+
+        OrderedArray orderedArray = new OrderedArray(testingData.clone());     // sorted: [1, 2, 2, 2, 3]
+        int expect = 1;
+        int actual = orderedArray.find(NUM);
+
+        assertEquals(expect, actual, "Array: " + orderedArray + " The first " + NUM + " is at index " + expect);
+
+    }
+
+    // ====== Count ======
+    @Test
+    void given4InsertsAnd1Delete_whenCount_thenReturn3() {
+        OrderedArray orderedArray = new OrderedArray(3);
+        orderedArray.insert(5);
+        orderedArray.insert(1);
+        orderedArray.insert(4);
+        orderedArray.insert(2);     // the array is full, so it resizes
+        orderedArray.delete(4);
+
+        assertEquals(3, orderedArray.count(), "Array: " + orderedArray + " has 3 elements");
+    }
 
 }

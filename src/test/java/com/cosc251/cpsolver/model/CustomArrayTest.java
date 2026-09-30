@@ -1,5 +1,4 @@
-package com.cosc251.cpsolver;
-import com.cosc251.cpsolver.model.CustomArray;
+package com.cosc251.cpsolver.model;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -16,15 +15,15 @@ class CustomArrayTest {
     void givenEmptyIntegerArray_whenCustomArray_thenThrowIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> {
                     CustomArray customArray = new CustomArray(new Integer[]{}) {
-                        void insert(int e) {
+                        public void insert(int e) {
                         }
 
                         @Override
-                        boolean delete(int e) {
+                        public boolean delete(int e) {
                             return false;
                         }
 
-                        int find(int e) {
+                        public int find(int e) {
                             return 0;
                         }
                     };
@@ -32,20 +31,48 @@ class CustomArrayTest {
                 , "Array must contain at least 1 element !");
     }
 
+    @Test
+    void givenIntegerArrayWithNullInTheMiddle_whenCustomArray_thenMoveNonNullElementsToTheFront() {
+        Integer[] testingData = new Integer[]{1,2,3,null,5};
+
+        CustomArray customArray = new CustomArray(testingData) {
+            @Override
+            public boolean delete(int e) {
+                return false;
+            }
+
+            @Override
+            public int find(int e) {
+                return 0;
+            }
+
+            @Override
+            public void insert(int e) {
+
+            }
+        };
+
+        Integer[] expectedArray = new Integer[]{1,2,3,5,null};
+        Integer[] actualArray   = customArray.getArr();
+
+        boolean isEqual = Arrays.equals(expectedArray,actualArray);
+        assertTrue(isEqual, "Expected: " + Arrays.toString(expectedArray) + "\nActual: " + Arrays.toString(actualArray));
+    }
+
         // Int parameter
     @Test
     void givenSizeLessThan1_whenCustomArray_thenThrowIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> {
             CustomArray customArray = new CustomArray(0) {
-                void insert(int e) {
+                public void insert(int e) {
                 }
 
                 @Override
-                boolean delete(int e) {
+                public boolean delete(int e) {
                     return false;
                 }
 
-                int find(int e) {
+                public int find(int e) {
                     return 0;
                 }
             };
@@ -59,17 +86,17 @@ class CustomArrayTest {
     void givenIndexIsNotGreaterOrEqualTo0_whenGet_thenThrowIndexOutOfBound() {
         CustomArray customArray = new CustomArray(1) {
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
 
             @Override
-            void insert(int e) {
+            public void insert(int e) {
 
             }
         };
@@ -84,17 +111,17 @@ class CustomArrayTest {
     void givenIndexIsGreaterThanArraySize_whenGet_thenThrowIndexOutOfBound() {
         CustomArray customArray = new CustomArray(1) {
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
 
             @Override
-            void insert(int e) {
+            public void insert(int e) {
 
             }
         };
@@ -112,17 +139,17 @@ class CustomArrayTest {
 
         CustomArray customArray = new CustomArray(testingData) {
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
 
             @Override
-            void insert(int e) {
+            public void insert(int e) {
 
             }
         };
@@ -135,28 +162,27 @@ class CustomArrayTest {
     @Test
     void givenIndexToNullElement_whenGet_thenReturnNull() {
         final int index= 3;
-        Integer[] testingData = new Integer[]{1,2,3,null,5};
+        Integer[] testingData = new Integer[]{1,2,3,null,null};
 
         CustomArray customArray = new CustomArray(testingData) {
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
 
             @Override
-            void insert(int e) {
+            public void insert(int e) {
 
             }
         };
 
-        Integer expected = testingData[4];
-        Integer actual   = customArray.get(index);
-        assertEquals(expected,actual, "For index: " + index + "\n" + Arrays.toString(testingData) + " should return " + expected );
+        Integer actual = customArray.get(index);
+        assertNull(actual, "For index: " + index + "\n" + Arrays.toString(testingData) + " should return null");
     }
 
     // ======= size =======
@@ -164,16 +190,16 @@ class CustomArrayTest {
     void givenArrayLength4_whenSize_thenReturn4() {
         CustomArray customArray = new CustomArray(4) {
             @Override
-            void insert(int e) {
+            public void insert(int e) {
             }
 
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
         };
@@ -186,16 +212,16 @@ class CustomArrayTest {
     void given2ElementsAnd2Null_whenCount_thenReturn2() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,null,null}) {
             @Override
-            void insert(int e) {
+            public void insert(int e) {
             }
 
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
         };
@@ -210,16 +236,16 @@ class CustomArrayTest {
     void givenNewSizeLessThan1_whenResize_thenThrowIllegalArgumentException() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
-            void insert(int e) {
+            public void insert(int e) {
             }
 
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
         };
@@ -234,16 +260,16 @@ class CustomArrayTest {
     void givenNewSizeEqualsToCurrentSize_whenResize_thenArrayStayTheSame() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
-            void insert(int e) {
+            public void insert(int e) {
             }
 
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
         };
@@ -261,16 +287,16 @@ class CustomArrayTest {
     void givenNewSize_whenResize_thenSizeChangeToNewSize() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,null,null}) {
             @Override
-            void insert(int e) {
+            public void insert(int e) {
             }
 
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
         };
@@ -283,16 +309,16 @@ class CustomArrayTest {
     void givenNewSizeLargerThanCurrentSize_whenResize_thenArrayHaveMorePositionsWithNullValuesAndPreserveOriginalOrder() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
-            void insert(int e) {
+            public void insert(int e) {
             }
 
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
         };
@@ -309,17 +335,17 @@ class CustomArrayTest {
     void givenNewSizeSmallerThanCurrentSize_whenResize_thenArrayTruncatesAndPreserveOriginalOrder() {
         CustomArray customArray = new CustomArray(new Integer[]{1,2,3,4,5}) {
             @Override
-            void insert(int e) {
+            public void insert(int e) {
             }
 
 
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
         };

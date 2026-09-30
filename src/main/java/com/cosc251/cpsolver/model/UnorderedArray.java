@@ -1,116 +1,87 @@
 package com.cosc251.cpsolver.model;
 
-import java.util.Objects;
-
 /**
- * This class extends {@link CustomArray}.
- * @implNote The array in this class will not be sorted
+ * An array that keeps elements in the order they were inserted. It is not sorted.
+ * The Integer[] arr field and the get, size, count and resize methods come from CustomArray.
  */
 public class UnorderedArray extends CustomArray {
+
     /**
-     * <p>Given a size, this constructor will create an Array of type {@code Integer } with {@code Null}
-     * values according to the given size. </p>
-     * <p> The {@code Null} values will be replaced when inserting elements. </p>
-     * <p> The {@code Null} values indicates unused positions. </p>
+     * Creates an empty unordered array with the given capacity.
+     * Time complexity: O(n), Java fills all n slots of the new array with null.
      *
-     * @param size the total capacity of the array.
+     * @param size the capacity of the array
+     * @throws IllegalArgumentException if size is less than 1
      */
     public UnorderedArray(int size) {
         super(size);
     }
 
     /**
-     * Removing the first occurrence of the given element {@code e}.
-     * <p>
-     * After deletion, remaining elements will shift to the left such that all non-null
-     * elements remain contiguous.
+     * Creates an unordered array from a copy of the given elements, keeping their order.
+     * Null values are treated as unused slots and end up at the back.
+     * Time complexity: O(n), we go through the given array once.
      *
-     * @param e The element to be removed in the array.
-     * @return {@code true}: the element is found deleted <br>
-     *         {@code false}: the element is not found.
-     *
-     * @implNote Utilizes {@code Brute-Force} searching algorithm to search for the element to be removed.
-     * <p>
-     * <b>Time Complexity Analysis:</b>
-     * <ul>
-     *   <li><b>Best Case O(1):</b> When {@code e} is at the first index</li>
-     *   <li><b>Worst Case O(n):</b> When {@code e} is at the last index or is not found</li>
-     * </ul>
+     * @param elements the starting elements
+     * @throws IllegalArgumentException if elements is empty
      */
-    @Override
-    public boolean delete(int e) {
-        int index = find(e);
-        boolean isFound = index != -1; // False when find(e) returns -1 (exist), false if it returns something else
-        System.out.println(isFound);
-
-        if (isFound) {
-            arr[index] = null;
-
-            UnorderedArray newArr = new UnorderedArray(arr.length);
-            for (Integer i : arr) {
-                if (i != null) {
-                    newArr.insert(i);
-                }
-            }
-
-            arr     = newArr.arr;
-            pointer = newArr.pointer;
-            count   = newArr.count;
-
-            return true;
-        }
-
-        return false;
-
+    public UnorderedArray(Integer[] elements) {
+        super(elements);
     }
 
     /**
-     * <p>Inserting an integer to the array. </p>
-     * <p> The array will automatically resize if it is full after insertion</p>
+     * Adds x right after the last element. If the array is full, its size is doubled first.
+     * Time complexity: O(1) amortized. Usually x just goes into the next free slot. When the array
+     * is full, resizing copies all n elements (O(n)), but because the size doubles this only happens
+     * once every n or so inserts, so on average each insert is still O(1).
      *
-     * @param e The element to be inserted into the array.
-     * @implNote {@code O(1)} Time Complexity in all cases.
+     * @param x the integer to insert
      */
     @Override
-    public void insert(int e) {
-        boolean isArrayFull = pointer == size;
+    public void insert(int x) {
+        boolean isArrayFull = count == arr.length;
 
         if (isArrayFull) {
-            resize(size() + 1);
-            arr[pointer] = e;
-
-        } else {
-            arr[pointer] = e;
+            resize(arr.length * 2);
         }
-
-        pointer++;
-
+        arr[count] = x;
+        count++;
     }
 
     /**
-     * Searches through the array to find the given element {@code e}.
+     * Removes the first occurrence of x and shifts the remaining elements left so there are no gaps.
+     * Time complexity: O(n) in every case. Finding x at index i takes i + 1 steps and shifting the
+     * elements after it takes n - i - 1, which adds up to n. If x isn't there, the search checks all n.
      *
-     * @param e the element to be found or not found
-     * @return {@code Index} of the corresponding inputted element <br>
-     *         {@code -1} if the inputted element doesn't exist
-     *
-     * @implNote Utilizes a {@code Brute-Force} searching algorithm.
-     * <p>
-     * <b>Time Complexity Analysis:</b>
-     * <ul>
-     *   <li><b>Best Case O(1):</b> When {@code e} is at the first index</li>
-     *   <li><b>Worst Case O(n):</b> When {@code e} is at the last index</li>
-     * </ul>
+     * @param x the integer to remove
+     * @return true if x was found and removed, false if it isn't in the array
      */
     @Override
-    public int find(int e) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] != null && arr[i] == e) {
+    public boolean delete(int x) {
+        int index = find(x);
+        boolean isFound = index != -1;
+
+        if (isFound) {
+            removeAt(index);
+        }
+        return isFound;
+    }
+
+    /**
+     * Linear search: checks the elements one by one from the start.
+     * Time complexity: O(n). Best case O(1) when x is the first element. Worst case O(n) when x is
+     * the last element or missing, since the array isn't sorted and every element has to be checked.
+     *
+     * @param x the integer to look for
+     * @return the index of the first occurrence of x, or -1 if it isn't in the array
+     */
+    @Override
+    public int find(int x) {
+        for (int i = 0; i < count; i++) {
+            if (arr[i] == x) {
                 return i;
             }
         }
         return -1;
     }
-
-
 }
