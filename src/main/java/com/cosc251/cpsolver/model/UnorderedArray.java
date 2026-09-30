@@ -1,5 +1,9 @@
 package com.cosc251.cpsolver.model;
 
+/**
+ * This class extends {@link CustomArray}.
+ * @implNote The array in this class will not be sorted
+ */
 public class UnorderedArray extends CustomArray {
     /**
      * <p>Given a size, this constructor will create an Array of type {@code Integer } with {@code Null}
@@ -25,13 +29,22 @@ public class UnorderedArray extends CustomArray {
     }
 
     /**
+     * Removing the first occurrence of the given element {@code e}.
+     * <p>
+     * After deletion, remaining elements will shift to the left such that all non-null
+     * elements remain contiguous.
      *
-     * <p>Removing the first occurrence of the given element. </p>
-     * <p>After deletion, remaining elements will shift to the left such that all non-null elements remain contiguous.</p>
+     * @param e The element to be removed in the array.
+     * @return {@code true}: the element is found deleted <br>
+     *         {@code false}: the element is not found.
      *
-     * @param e The element to be removed into the array.
-     * @return {@code True}: the element is found deleted
-     * {@code False}: the element is not found.
+     * @implNote Utilizes {@code Brute-Force} searching algorithm to search for the element to be removed.
+     * <p>
+     * <b>Time Complexity Analysis:</b>
+     * <ul>
+     *   <li><b>Best Case O(1):</b> When {@code e} is at the first index</li>
+     *   <li><b>Worst Case O(n):</b> When {@code e} is at the last index or is not found</li>
+     * </ul>
      */
     @Override
     boolean delete(int e) {
@@ -54,15 +67,16 @@ public class UnorderedArray extends CustomArray {
      * <p> The array will automatically resize if it is full after insertion</p>
      *
      * @param e The element to be inserted into the array.
+     * @implNote {@code O(1)} Time Complexity in all cases.
      */
     @Override
     void insert(int e) {
-        boolean isArrayFull = pointer == arr.length;
+        boolean isArrayFull = arr[pointer] != null;
 
         if (isArrayFull) {
-            resize(pointer + 1);
+            resize(size() + 1);
             arr[pointer] = e;
-            pointer ++;
+            pointer++;
         } else {
             arr[pointer] = e;
         }
@@ -70,13 +84,19 @@ public class UnorderedArray extends CustomArray {
     }
 
     /**
-     * <p> Searches through the array to find the inputted element. </p>
+     * Searches through the array to find the given element {@code e}.
      *
      * @param e the element to be found or not found
-     * @return <p>{@code Index} of the corresponding inputted  element</p>
-     * <p>{@code -1 } if the inputted element doesn't exist</p>
+     * @return {@code Index} of the corresponding inputted element <br>
+     *         {@code -1} if the inputted element doesn't exist
      *
-     *
+     * @implNote Utilizes a {@code Brute-Force} searching algorithm.
+     * <p>
+     * <b>Time Complexity Analysis:</b>
+     * <ul>
+     *   <li><b>Best Case O(1):</b> When {@code e} is at the first index</li>
+     *   <li><b>Worst Case O(n):</b> When {@code e} is at the last index</li>
+     * </ul>
      */
     @Override
     int find(int e) {
@@ -87,4 +107,6 @@ public class UnorderedArray extends CustomArray {
         }
         return -1;
     }
+
+
 }
