@@ -33,7 +33,6 @@ abstract public class CustomArray {
         return Arrays.toString(arr);
     }
 
-    // ======== Overloaded constructors ========
 
     /**
      * <p>Given a size, this constructor will create an Array of type {@code Integer } with {@code Null}
@@ -51,31 +50,6 @@ abstract public class CustomArray {
         this.arr = new Integer[size];
     }
 
-    /**
-     * <p> given an Array of type {@code Integer }, this constructor will create an object of the type {@code CustomArray} with the given array. </p>
-     * <p> The object will preserve all the values of the given array while also providing with more
-     * methods to work with. </p>
-     *
-     * @throws IllegalArgumentException if given an empty array or array contain a null value.
-     * @param arr an Array of type {@code Integer }.
-     */
-    public CustomArray(Integer[] arr) {
-        if (arr.length == 0) {
-            throw new IllegalArgumentException("Array must not be empty!");
-        }
-
-        for (Integer e : arr) {
-            if (e == null) {
-                throw new IllegalArgumentException("Array must not contain any null elements!");
-            }
-        }
-
-        this.arr = arr;
-        this.size = arr.length;
-
-        // Count the number non-null elements and update the count variable
-        countNonNullElement();
-    }
 
     /**
      * <p> Get the element according to the given index </p>
