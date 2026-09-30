@@ -1,5 +1,7 @@
 package com.cosc251.cpsolver.model;
 
+import java.util.Objects;
+
 /**
  * This class extends {@link CustomArray}.
  * @implNote The array in this class will not be sorted
@@ -39,11 +41,22 @@ public class UnorderedArray extends CustomArray {
     public boolean delete(int e) {
         int index = find(e);
         boolean isFound = index != -1; // False when find(e) returns -1 (exist), false if it returns something else
+        System.out.println(isFound);
 
         if (isFound) {
             arr[index] = null;
-            UnorderedArray newArr = new UnorderedArray(arr);
-            arr = newArr.arr;
+
+            UnorderedArray newArr = new UnorderedArray(arr.length);
+            for (Integer i : arr) {
+                if (i != null) {
+                    newArr.insert(i);
+                }
+            }
+
+            arr     = newArr.arr;
+            pointer = newArr.pointer;
+            count   = newArr.count;
+
             return true;
         }
 
@@ -72,9 +85,6 @@ public class UnorderedArray extends CustomArray {
 
         pointer++;
 
-        System.out.println("pointer is: " + pointer + " for " + this);
-
-
     }
 
     /**
@@ -95,7 +105,7 @@ public class UnorderedArray extends CustomArray {
     @Override
     public int find(int e) {
         for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == e) {
+            if (arr[i] != null && arr[i] == e) {
                 return i;
             }
         }
