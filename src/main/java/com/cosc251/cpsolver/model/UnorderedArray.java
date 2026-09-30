@@ -18,17 +18,6 @@ public class UnorderedArray extends CustomArray {
     }
 
     /**
-     * <p> given an Array of type {@code Integer }, this constructor will create an object of the type {@code CustomArray} with the given array. </p>
-     * <p> The object will preserve all the values of the given array while also providing with more
-     * methods to work with. </p>
-     *
-     * @param arr an Array of type {@code Integer }.
-     */
-    public UnorderedArray(Integer[] arr) {
-        super(arr);
-    }
-
-    /**
      * Removing the first occurrence of the given element {@code e}.
      * <p>
      * After deletion, remaining elements will shift to the left such that all non-null
@@ -71,15 +60,20 @@ public class UnorderedArray extends CustomArray {
      */
     @Override
     public void insert(int e) {
-        boolean isArrayFull = arr[pointer] != null;
+        boolean isArrayFull = pointer == size;
 
         if (isArrayFull) {
             resize(size() + 1);
             arr[pointer] = e;
-            pointer++;
+
         } else {
             arr[pointer] = e;
         }
+
+        pointer++;
+
+        System.out.println("pointer is: " + pointer + " for " + this);
+
 
     }
 
