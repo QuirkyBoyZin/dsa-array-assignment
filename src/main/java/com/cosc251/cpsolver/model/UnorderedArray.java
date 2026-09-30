@@ -47,7 +47,7 @@ public class UnorderedArray extends CustomArray {
      * </ul>
      */
     @Override
-    boolean delete(int e) {
+    public boolean delete(int e) {
         int index = find(e);
         boolean isFound = index != -1; // False when find(e) returns -1 (exist), false if it returns something else
 
@@ -70,7 +70,7 @@ public class UnorderedArray extends CustomArray {
      * @implNote {@code O(1)} Time Complexity in all cases.
      */
     @Override
-    void insert(int e) {
+    public void insert(int e) {
         boolean isArrayFull = arr[pointer] != null;
 
         if (isArrayFull) {
@@ -99,7 +99,7 @@ public class UnorderedArray extends CustomArray {
      * </ul>
      */
     @Override
-    int find(int e) {
+    public int find(int e) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] == e) {
                 return i;

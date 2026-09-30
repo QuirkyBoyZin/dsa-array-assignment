@@ -28,11 +28,30 @@ public class OrderedArray extends CustomArray
      */
     public OrderedArray(Integer[] arr) {
         super(arr);
+
         Arrays.sort(super.arr);
     }
 
+    /**
+     * Removing the first occurrence of the given element {@code e}.
+     * <p>
+     * After deletion, remaining elements will shift to the left such that all non-null
+     * elements remain contiguous.
+     *
+     * @param e The element to be removed in the array.
+     * @return {@code true}: the element is found deleted <br>
+     *         {@code false}: the element is not found.
+     *
+     * @implNote Utilizes {@code Binary Search} searching algorithm to search for the element to be removed.
+     * <p>
+     * <b>Time Complexity Analysis:</b>
+     * <ul>
+     *   <li><b>Best Case O(1):</b> When {@code e} is at the middle index</li>
+     *   <li><b>Worst Case O(logn):</b> When {@code e} element is not found or at any other particular index</li>
+     * </ul>
+     */
     @Override
-    boolean delete(int e) {
+    public boolean delete(int e) {
 
         int index = find(e);
         boolean isFound = index != -1; // False when find(e) returns -1 (exist), false if it returns something else
@@ -48,37 +67,44 @@ public class OrderedArray extends CustomArray
     }
 
     /**
-     *
      * <p>Inserting an integer to the array. </p>
      * <p> The array will automatically resize if it is full after insertion</p>
      *
      * @param e The element to be inserted into the array.
+     * @implNote {@code O(n)} Time Complexity in all cases.
      */
     @Override
-    void insert(int e) {
+    public void insert(int e) {
         boolean isArrayFull = pointer == arr.length;
 
         if (isArrayFull) {
             resize(pointer + 1);
             arr[pointer] = e;
-            pointer ++;
+            pointer++;
         } else {
             arr[pointer] = e;
         }
         Arrays.sort(arr);
 
     }
+
     /**
-     * <p> Searches through the array to find the inputted element. </p>
+     * Searches through the array to find the given element {@code e}.
      *
      * @param e the element to be found or not found
-     * @return <p>{@code Index} of the corresponding inputted  element</p>
-     * <p>{@code -1 } if the inputted element doesn't exist</p>
+     * @return {@code Index} of the corresponding inputted element <br>
+     *         {@code -1} if the inputted element doesn't exist
      *
-     * @implNote {@code O(logn)} Time complexity by using binary search
+     * @implNote Utilizes a {@code Binary Search} searching algorithm.
+     * <p>
+     * <b>Time Complexity Analysis:</b>
+     * <ul>
+     *   <li><b>Best Case O(1):</b> When {@code e} is at the middle index</li>
+     *   <li><b>Worst Case O(logn):</b> When {@code e} element is not found or at any other particular index</li>
+     * </ul>
      */
     @Override
-    int find(int e) {
+    public int find(int e) {
 
         int low = 0, high = arr.length - 1;
 
@@ -97,7 +123,6 @@ public class OrderedArray extends CustomArray
 
         }
             return -1;
-
 
     }
 }

@@ -56,7 +56,7 @@ abstract public class CustomArray {
      * <p> The object will preserve all the values of the given array while also providing with more
      * methods to work with. </p>
      *
-     * @throws IllegalArgumentException if given an empty array.
+     * @throws IllegalArgumentException if given an empty array or array contain a null value.
      * @param arr an Array of type {@code Integer }.
      */
     public CustomArray(Integer[] arr) {
@@ -64,16 +64,14 @@ abstract public class CustomArray {
             throw new IllegalArgumentException("Array must not be empty!");
         }
 
-        // Creating a new array to hold the given array because the user might pass [null,1,2,3,4]
-        this.arr = new Integer[arr.length];
-        this.size = arr.length;
-
         for (Integer e : arr) {
-            if (e != null) {
-                this.arr[pointer] = e;
-                pointer++;
+            if (e == null) {
+                throw new IllegalArgumentException("Array must not contain any null elements!");
             }
         }
+
+        this.arr = arr;
+        this.size = arr.length;
 
         // Count the number non-null elements and update the count variable
         countNonNullElement();
@@ -82,7 +80,8 @@ abstract public class CustomArray {
     /**
      * <p> Get the element according to the given index </p>
      * @param index the position of a particular element
-     * @return {@code Null}  if no element exist at the inputted index, else return the {@code element} .
+     * @return {@code Null}  if no element exist at the given index <br>
+     * {@code Element } at that index
      * @throws IndexOutOfBoundsException If the given index is not greater or equal to 0
      */
     public Integer get(int index) {
@@ -97,22 +96,22 @@ abstract public class CustomArray {
      * @return {@code True}: the element is found deleted
      * {@code False}: the element is not found.
      */
-    abstract boolean delete(int e);
+    public abstract boolean delete(int e);
 
     /**
      * <p> Searches through the array to find the inputted element {@code e}. </p>
      *
      * @param e the element to be searched for
-     * @return <p> Index of {@code e} if exists or {@code -1 } if {@code e} doesn't exist</p>
+     * @return <p> Index of {@code e} if exists <br> {@code -1 } if {@code e} doesn't exist</p>
      */
-    abstract int find(int e);
+    public abstract int find(int e);
 
     /**
      * <p>Inserting an integer to the array. </p>
      * <p> The array will automatically resize if it is full after insertion</p>
      * @param e The element to be inserted into the array.
      */
-    abstract void insert(int e);
+    public abstract void insert(int e);
 
     /**
      * <p> Changes the size of the array to the given {@code newSize }, While preserving the existing elements' order</p>
