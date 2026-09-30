@@ -91,17 +91,17 @@ class OrderedArrayTest {
 
         OrderedArray orderedArray = new OrderedArray(testingData.clone()) {
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
 
             @Override
-            void insert(int e) {
+            public void insert(int e) {
 
             }
         };
@@ -116,15 +116,15 @@ class OrderedArrayTest {
 
         OrderedArray orderedArray = new OrderedArray(testingData.clone()) {
             @Override
-            boolean delete(int e) {
+            public boolean delete(int e) {
                 return false;
             }
 
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
 
-            void insert(int e) {
+            public void insert(int e) {
 
             }
         };

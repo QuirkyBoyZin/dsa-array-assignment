@@ -55,12 +55,12 @@ class UnorderedArrayTest {
             }
 
             @Override
-            int find(int e) {
+            public int find(int e) {
                 return 0;
             }
 
             @Override
-            void insert(int e) {
+            public void insert(int e) {
 
             }
         };
