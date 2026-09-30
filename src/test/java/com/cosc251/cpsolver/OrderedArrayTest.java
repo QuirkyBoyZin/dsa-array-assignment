@@ -1,5 +1,6 @@
 package com.cosc251.cpsolver;
 
+import com.cosc251.cpsolver.model.OrderedArray;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

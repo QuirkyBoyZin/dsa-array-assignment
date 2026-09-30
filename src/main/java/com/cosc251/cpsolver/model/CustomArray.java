@@ -1,6 +1,5 @@
-package com.cosc251.cpsolver;
+package com.cosc251.cpsolver.model;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**

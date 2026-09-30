@@ -1,4 +1,5 @@
 package com.cosc251.cpsolver;
+import com.cosc251.cpsolver.model.CustomArray;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

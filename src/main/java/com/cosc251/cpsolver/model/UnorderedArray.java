@@ -1,4 +1,4 @@
-package com.cosc251.cpsolver;
+package com.cosc251.cpsolver.model;
 
 public class UnorderedArray extends CustomArray {
     /**
