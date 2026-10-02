@@ -1,7 +1,5 @@
 package com.cosc251.cpsolver.model;
 
-import java.util.Objects;
-
 /**
  * This class extends {@link CustomArray}.
  * @implNote The array in this class will not be sorted
@@ -34,7 +32,7 @@ public class UnorderedArray extends CustomArray {
      * <b>Time Complexity Analysis:</b>
      * <ul>
      *   <li><b>Best Case O(1):</b> When {@code e} is at the first index</li>
-     *   <li><b>Worst Case O(n):</b> When {@code e} is at the last index or is not found</li>
+     *   <li><b>Worst Case O(n):</b> When {@code e} is at the last index or is not found and the shifting of all the elements</li>
      * </ul>
      */
     @Override
@@ -44,20 +42,16 @@ public class UnorderedArray extends CustomArray {
         System.out.println(isFound);
 
         if (isFound) {
-            arr[index] = null;
-
-            UnorderedArray newArr = new UnorderedArray(arr.length);
-            for (Integer i : arr) {
-                if (i != null) {
-                    newArr.insert(i);
-                }
+            // Shift all elements after the found index to the left by 1
+            for (int i = index; i < pointer - 1; i++) {
+                arr[i] = arr[i + 1];
             }
 
-            arr     = newArr.arr;
-            pointer = newArr.pointer;
-            count   = newArr.count;
+            // Null out the last element since it was shifted left
+            arr[pointer - 1] = null;
 
-            return true;
+            pointer--;
+            count--; // Decrease element count tracking
         }
 
         return false;
@@ -82,7 +76,7 @@ public class UnorderedArray extends CustomArray {
         } else {
             arr[pointer] = e;
         }
-
+        count ++;
         pointer++;
 
     }

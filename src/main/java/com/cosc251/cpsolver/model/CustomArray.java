@@ -11,7 +11,7 @@ abstract public class CustomArray {
 
     protected Integer[] arr;      // Element will be set to null to indicate unused positions.
     protected int size;           // The Total number of elements in the array (both non-null and null elements)
-    protected int count;          // Number of non-null elements
+    protected int count   = 0;          // Number of non-null elements
     protected int pointer = 0;    // point at the nearest null entry in the array from left to right
 
     /**

@@ -1,8 +1,5 @@
 package com.cosc251.cpsolver.model;
 
-
-import java.util.Arrays;
-
 public class OrderedArray extends CustomArray
 {
 
@@ -18,19 +15,6 @@ public class OrderedArray extends CustomArray
         super(size);
     }
 
-    /**
-     * <p> given an Array of type {@code Integer }, this constructor will create an object of the type {@code CustomArray} with the given array. </p>
-     * <p> The object will preserve all the values of the given array while also providing with more
-     * methods to work with. </p>
-     *
-     * @implNote {@code nO(logn)} time complexity, the array needs to be sorted before the object is instantiated.
-     * @param arr an Array of type {@code Integer }.
-     */
-    public OrderedArray(Integer[] arr) {
-        super(arr);
-
-        Arrays.sort(super.arr);
-    }
 
     /**
      * Removing the first occurrence of the given element {@code e}.
@@ -47,7 +31,7 @@ public class OrderedArray extends CustomArray
      * <b>Time Complexity Analysis:</b>
      * <ul>
      *   <li><b>Best Case O(1):</b> When {@code e} is at the middle index</li>
-     *   <li><b>Worst Case O(logn):</b> When {@code e} element is not found or at any other particular index</li>
+     *   <li><b>Worst Case O(n):</b> is at the last index or is not found and the shifting of all the elements</li>
      * </ul>
      */
     @Override
@@ -57,9 +41,17 @@ public class OrderedArray extends CustomArray
         boolean isFound = index != -1; // False when find(e) returns -1 (exist), false if it returns something else
 
         if (isFound) {
-            arr[index] = null;
-            UnorderedArray newArr = new UnorderedArray(arr);
-            arr = newArr.arr;
+            // Shift all elements after the found index to the left by 1
+            for (int i = index; i < pointer - 1; i++) {
+                arr[i] = arr[i + 1];
+            }
+
+            // Null out the last element since it was shifted left
+            arr[pointer - 1] = null;
+
+            pointer--;
+            count--; // Decrease element count tracking
+
             return true;
         }
 
@@ -75,16 +67,25 @@ public class OrderedArray extends CustomArray
      */
     @Override
     public void insert(int e) {
-        boolean isArrayFull = pointer == arr.length;
+        boolean isArrayFull = pointer == size;
 
         if (isArrayFull) {
-            resize(pointer + 1);
-            arr[pointer] = e;
-            pointer++;
-        } else {
-            arr[pointer] = e;
+            resize(size + 1);
         }
-        Arrays.sort(arr);
+
+        // Find the correct position for 'e' to keep the array ordered
+        // by shifting larger elements one position to the right
+        int currentIndex = pointer - 1;
+        while (currentIndex >= 0 && arr[currentIndex] != null && arr[currentIndex] > e) {
+            arr[currentIndex + 1] = arr[currentIndex];
+            currentIndex--;
+        }
+
+        // Insert the new element at the correct ordered position
+        arr[currentIndex + 1] = e;
+
+        pointer++;
+        count++;
 
     }
 
